@@ -213,7 +213,7 @@
         /* Cards Grid */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2.5rem;
             margin-top: 3rem;
         }
@@ -276,6 +276,10 @@
             font-size: 2rem;
             margin-bottom: 1.5rem;
             box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .card-icon[role="presentation"] {
+            pointer-events: none;
         }
 
         .card h2 {
@@ -464,16 +468,16 @@
         <div class="cards-grid">
             <!-- Card 1: Cassio Eletro Show -->
             <div class="card reveal">
-                <div class="card-icon">⚡</div>
+                <div class="card-icon" role="presentation" aria-hidden="true">⚡</div>
                 <h2>Cassio Eletro Show</h2>
                 <p>Experience electrifying performances and captivating energy with Cassio Eletro Show!</p>
                 <div class="social-links">
-                    <a href="https://www.facebook.com/cassioeletroshow" target="_blank" rel="noopener noreferrer" class="social-link">
-                        <span class="social-icon">📘</span>
+                    <a href="https://www.facebook.com/cassioeletroshow" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Visit Cassio Eletro Show on Facebook (opens in new tab)">
+                        <span class="social-icon" role="img" aria-label="Facebook">📘</span>
                         Facebook
                     </a>
-                    <a href="https://www.instagram.com/cassioeletroshow" target="_blank" rel="noopener noreferrer" class="social-link">
-                        <span class="social-icon">📸</span>
+                    <a href="https://www.instagram.com/cassioeletroshow" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Visit Cassio Eletro Show on Instagram (opens in new tab)">
+                        <span class="social-icon" role="img" aria-label="Instagram">📸</span>
                         Instagram
                     </a>
                 </div>
@@ -481,16 +485,16 @@
 
             <!-- Card 2: Kasinha Publounge -->
             <div class="card reveal">
-                <div class="card-icon">🍸</div>
+                <div class="card-icon" role="presentation" aria-hidden="true">🍸</div>
                 <h2>Kasinha Publounge</h2>
                 <p>Join us at Kasinha Publounge for a cozy ambiance, great drinks, and unforgettable moments.</p>
                 <div class="social-links">
-                    <a href="https://www.facebook.com/kasinhapublounge" target="_blank" rel="noopener noreferrer" class="social-link">
-                        <span class="social-icon">📘</span>
+                    <a href="https://www.facebook.com/kasinhapublounge" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Visit Kasinha Publounge on Facebook (opens in new tab)">
+                        <span class="social-icon" role="img" aria-label="Facebook">📘</span>
                         Facebook
                     </a>
-                    <a href="https://www.instagram.com/kasinhapublounge" target="_blank" rel="noopener noreferrer" class="social-link">
-                        <span class="social-icon">📸</span>
+                    <a href="https://www.instagram.com/kasinhapublounge" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Visit Kasinha Publounge on Instagram (opens in new tab)">
+                        <span class="social-icon" role="img" aria-label="Instagram">📸</span>
                         Instagram
                     </a>
                 </div>
@@ -498,16 +502,16 @@
 
             <!-- Card 3: Dalhe Brasa -->
             <div class="card reveal">
-                <div class="card-icon">🔥</div>
+                <div class="card-icon" role="presentation" aria-hidden="true">🔥</div>
                 <h2>Dalhe Brasa</h2>
                 <p>Savor the flavor of expertly grilled delights only at Dalhe Brasa.</p>
                 <div class="social-links">
-                    <a href="https://www.facebook.com/dalhebrasa" target="_blank" rel="noopener noreferrer" class="social-link">
-                        <span class="social-icon">📘</span>
+                    <a href="https://www.facebook.com/dalhebrasa" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Visit Dalhe Brasa on Facebook (opens in new tab)">
+                        <span class="social-icon" role="img" aria-label="Facebook">📘</span>
                         Facebook
                     </a>
-                    <a href="https://www.instagram.com/dalhebrasa" target="_blank" rel="noopener noreferrer" class="social-link">
-                        <span class="social-icon">📸</span>
+                    <a href="https://www.instagram.com/dalhebrasa" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Visit Dalhe Brasa on Instagram (opens in new tab)">
+                        <span class="social-icon" role="img" aria-label="Instagram">📸</span>
                         Instagram
                     </a>
                 </div>

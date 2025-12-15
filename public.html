@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bairro - Anúncios Classificados</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            background-color: #1a1a2e;
+            color: #ffffff;
+        }
+
+        header {
+            background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #d4af37;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: #ffffff;
+            opacity: 0.9;
+        }
+
+        .login-link {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: #e94560;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .login-link:hover {
+            background: #d4af37;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(212, 175, 55, 0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .category-section {
+            margin: 3rem 0;
+        }
+
+        .category-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #d4af37;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e94560;
+        }
+
+        .ads-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .ad-card {
+            background: #16213e;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .ad-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(212, 175, 55, 0.2);
+        }
+
+        .ad-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #0f1626;
+        }
+
+        .ad-content {
+            padding: 1.5rem;
+        }
+
+        .ad-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #d4af37;
+            margin-bottom: 0.5rem;
+        }
+
+        .ad-description {
+            color: #ffffff;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .ad-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .ad-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #e94560;
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .ad-link:hover {
+            background: #d4af37;
+            transform: scale(1.05);
+        }
+
+        .ad-link.whatsapp {
+            background: #25D366;
+        }
+
+        .ad-link.whatsapp:hover {
+            background: #128C7E;
+        }
+
+        .ad-link.instagram {
+            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 3rem;
+            color: #ffffff;
+            opacity: 0.7;
+            font-size: 1.1rem;
+        }
+
+        footer {
+            background: #16213e;
+            color: #ffffff;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            color: #d4af37;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .login-link {
+                position: static;
+                display: inline-block;
+                margin-top: 1rem;
+            }
+
+            .ads-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-title {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bairro</h1>
+        <p>Descubra o melhor do seu bairro</p>
+        <a href="login.html" class="login-link">Entrar</a>
+    </header>
+
+    <div class="container">
+        <div id="loading" class="loading">Carregando anúncios...</div>
+        <div id="ads-container"></div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Bairro. Conectando a comunidade local.</p>
+    </footer>
+
+    <script>
+        // Fetch and display ads
+        async function loadAds() {
+            try {
+                const response = await fetch('/api/ads');
+                const ads = await response.json();
+
+                document.getElementById('loading').style.display = 'none';
+
+                if (ads.length === 0) {
+                    document.getElementById('ads-container').innerHTML = 
+                        '<div class="empty-message">Nenhum anúncio disponível no momento.</div>';
+                    return;
+                }
+
+                // Group ads by category
+                const categories = {};
+                ads.forEach(ad => {
+                    if (!categories[ad.category]) {
+                        categories[ad.category] = [];
+                    }
+                    categories[ad.category].push(ad);
+                });
+
+                // Display ads by category
+                const container = document.getElementById('ads-container');
+                container.innerHTML = '';
+
+                for (const [category, categoryAds] of Object.entries(categories)) {
+                    const section = document.createElement('div');
+                    section.className = 'category-section';
+
+                    const title = document.createElement('h2');
+                    title.className = 'category-title';
+                    title.textContent = category;
+                    section.appendChild(title);
+
+                    const grid = document.createElement('div');
+                    grid.className = 'ads-grid';
+
+                    categoryAds.forEach(ad => {
+                        const card = createAdCard(ad);
+                        grid.appendChild(card);
+                    });
+
+                    section.appendChild(grid);
+                    container.appendChild(section);
+                }
+            } catch (error) {
+                console.error('Error loading ads:', error);
+                document.getElementById('loading').textContent = 'Erro ao carregar anúncios.';
+            }
+        }
+
+        function createAdCard(ad) {
+            const card = document.createElement('div');
+            card.className = 'ad-card';
+
+            const image = document.createElement('img');
+            image.className = 'ad-image';
+            image.src = ad.image;
+            image.alt = ad.title;
+            image.onerror = function() {
+                this.src = 'https://via.placeholder.com/400x300?text=Sem+Imagem';
+            };
+            card.appendChild(image);
+
+            const content = document.createElement('div');
+            content.className = 'ad-content';
+
+            const title = document.createElement('h3');
+            title.className = 'ad-title';
+            title.textContent = ad.title;
+            content.appendChild(title);
+
+            const description = document.createElement('p');
+            description.className = 'ad-description';
+            description.textContent = ad.description;
+            content.appendChild(description);
+
+            const links = document.createElement('div');
+            links.className = 'ad-links';
+
+            if (ad.whatsapp) {
+                const whatsappLink = document.createElement('a');
+                whatsappLink.href = `https://wa.me/${ad.whatsapp}`;
+                whatsappLink.target = '_blank';
+                whatsappLink.className = 'ad-link whatsapp';
+                whatsappLink.textContent = '📱 WhatsApp';
+                links.appendChild(whatsappLink);
+            }
+
+            if (ad.instagram) {
+                const instagramLink = document.createElement('a');
+                instagramLink.href = `https://instagram.com/${ad.instagram}`;
+                instagramLink.target = '_blank';
+                instagramLink.className = 'ad-link instagram';
+                instagramLink.textContent = '📷 Instagram';
+                links.appendChild(instagramLink);
+            }
+
+            content.appendChild(links);
+            card.appendChild(content);
+
+            return card;
+        }
+
+        // Load ads on page load
+        loadAds();
+    </script>
+</body>
+</html>

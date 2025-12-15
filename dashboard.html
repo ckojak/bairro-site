@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Bairro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1a1a2e;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-left h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #d4af37;
+        }
+
+        .header-left p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-info .name {
+            font-weight: 600;
+            color: #d4af37;
+        }
+
+        .user-info .collab-number {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        .btn {
+            padding: 0.6rem 1.5rem;
+            background: #e94560;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: #d4af37;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #16213e;
+        }
+
+        .btn-secondary:hover {
+            background: #e94560;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            background: #16213e;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #d4af37;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e94560;
+            padding-bottom: 0.5rem;
+        }
+
+        .ads-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .ad-card {
+            background: #0f1626;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .ad-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .ad-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #1a1a2e;
+        }
+
+        .ad-content {
+            padding: 1.5rem;
+        }
+
+        .ad-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: #d4af37;
+            margin-bottom: 0.5rem;
+        }
+
+        .ad-category {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #e94560;
+            color: white;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .ad-description {
+            color: #ffffff;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .ad-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-small {
+            padding: 0.4rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-edit {
+            background: #d4af37;
+        }
+
+        .btn-edit:hover {
+            background: #b8941f;
+        }
+
+        .btn-delete {
+            background: #e94560;
+        }
+
+        .btn-delete:hover {
+            background: #d02e4a;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 3rem;
+            color: #ffffff;
+            opacity: 0.7;
+            font-size: 1.1rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: #16213e;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #d4af37;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #d4af37;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #1a1a2e;
+            border-radius: 8px;
+            background: #0f1626;
+            color: #ffffff;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #e94560;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .close-modal:hover {
+            opacity: 1;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            color: #d4af37;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-right {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .user-info {
+                text-align: center;
+            }
+
+            .ads-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .modal-content {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <h1>Meu Dashboard</h1>
+            <p>Gerencie seus anúncios</p>
+        </div>
+        <div class="header-right">
+            <div class="user-info">
+                <div class="name" id="user-name">Carregando...</div>
+                <div class="collab-number" id="collab-number"></div>
+            </div>
+            <button class="btn" onclick="logout()">Sair</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2 class="section-title" style="margin: 0; border: none; padding: 0;">Meus Anúncios</h2>
+                <button class="btn" onclick="openAddModal()">+ Novo Anúncio</button>
+            </div>
+            
+            <div id="loading" class="loading">Carregando seus anúncios...</div>
+            <div id="ads-container"></div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="public.html" class="btn btn-secondary">Ver Página Pública</a>
+        </div>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="ad-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <h2 class="modal-title" id="modal-title">Novo Anúncio</h2>
+            <form id="ad-form">
+                <input type="hidden" id="ad-id">
+                
+                <div class="form-group">
+                    <label for="ad-category">Categoria *</label>
+                    <select id="ad-category" required>
+                        <option value="">Selecione uma categoria</option>
+                        <option value="Bebidas">Bebidas</option>
+                        <option value="Lanchonetes">Lanchonetes</option>
+                        <option value="Eletrodomésticos">Eletrodomésticos</option>
+                        <option value="Shows e Eventos">Shows e Eventos</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ad-title">Título *</label>
+                    <input type="text" id="ad-title" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="ad-description">Descrição *</label>
+                    <textarea id="ad-description" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="ad-image">URL da Imagem</label>
+                    <input type="url" id="ad-image" placeholder="https://exemplo.com/imagem.jpg">
+                </div>
+
+                <div class="form-group">
+                    <label for="ad-whatsapp">WhatsApp (com código do país)</label>
+                    <input type="text" id="ad-whatsapp" placeholder="5511999999999">
+                </div>
+
+                <div class="form-group">
+                    <label for="ad-instagram">Instagram (sem @)</label>
+                    <input type="text" id="ad-instagram" placeholder="seuinstagram">
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn" id="save-btn">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let currentAds = [];
+
+        // Check authentication
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/auth/me');
+                if (!response.ok) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                currentUser = await response.json();
+                document.getElementById('user-name').textContent = currentUser.name;
+                document.getElementById('collab-number').textContent = `ID: ${currentUser.collaboratorNumber}`;
+                
+                // Redirect admin to admin dashboard
+                if (currentUser.role === 'admin') {
+                    window.location.href = 'admin.html';
+                }
+            } catch (error) {
+                console.error('Auth check error:', error);
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Load user's ads
+        async function loadAds() {
+            try {
+                const response = await fetch('/api/ads/my');
+                const ads = await response.json();
+                currentAds = ads;
+
+                document.getElementById('loading').style.display = 'none';
+
+                const container = document.getElementById('ads-container');
+                
+                if (ads.length === 0) {
+                    container.innerHTML = '<div class="empty-message">Você ainda não possui anúncios. Clique em "Novo Anúncio" para criar o primeiro!</div>';
+                    return;
+                }
+
+                const grid = document.createElement('div');
+                grid.className = 'ads-grid';
+
+                ads.forEach(ad => {
+                    const card = createAdCard(ad);
+                    grid.appendChild(card);
+                });
+
+                container.innerHTML = '';
+                container.appendChild(grid);
+            } catch (error) {
+                console.error('Error loading ads:', error);
+                document.getElementById('loading').textContent = 'Erro ao carregar anúncios.';
+            }
+        }
+
+        function createAdCard(ad) {
+            const card = document.createElement('div');
+            card.className = 'ad-card';
+
+            const image = document.createElement('img');
+            image.className = 'ad-image';
+            image.src = ad.image;
+            image.alt = ad.title;
+            image.onerror = function() {
+                this.src = 'https://via.placeholder.com/400x300?text=Sem+Imagem';
+            };
+            card.appendChild(image);
+
+            const content = document.createElement('div');
+            content.className = 'ad-content';
+
+            const category = document.createElement('span');
+            category.className = 'ad-category';
+            category.textContent = ad.category;
+            content.appendChild(category);
+
+            const title = document.createElement('h3');
+            title.className = 'ad-title';
+            title.textContent = ad.title;
+            content.appendChild(title);
+
+            const description = document.createElement('p');
+            description.className = 'ad-description';
+            description.textContent = ad.description;
+            content.appendChild(description);
+
+            const actions = document.createElement('div');
+            actions.className = 'ad-actions';
+
+            const editBtn = document.createElement('button');
+            editBtn.className = 'btn btn-small btn-edit';
+            editBtn.textContent = 'Editar';
+            editBtn.onclick = () => openEditModal(ad);
+            actions.appendChild(editBtn);
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'btn btn-small btn-delete';
+            deleteBtn.textContent = 'Excluir';
+            deleteBtn.onclick = () => deleteAd(ad.id);
+            actions.appendChild(deleteBtn);
+
+            content.appendChild(actions);
+            card.appendChild(content);
+
+            return card;
+        }
+
+        function openAddModal() {
+            document.getElementById('modal-title').textContent = 'Novo Anúncio';
+            document.getElementById('ad-form').reset();
+            document.getElementById('ad-id').value = '';
+            document.getElementById('ad-modal').style.display = 'block';
+        }
+
+        function openEditModal(ad) {
+            document.getElementById('modal-title').textContent = 'Editar Anúncio';
+            document.getElementById('ad-id').value = ad.id;
+            document.getElementById('ad-category').value = ad.category;
+            document.getElementById('ad-title').value = ad.title;
+            document.getElementById('ad-description').value = ad.description;
+            document.getElementById('ad-image').value = ad.image;
+            document.getElementById('ad-whatsapp').value = ad.whatsapp;
+            document.getElementById('ad-instagram').value = ad.instagram;
+            document.getElementById('ad-modal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('ad-modal').style.display = 'none';
+        }
+
+        // Handle form submission
+        document.getElementById('ad-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const adId = document.getElementById('ad-id').value;
+            const adData = {
+                category: document.getElementById('ad-category').value,
+                title: document.getElementById('ad-title').value,
+                description: document.getElementById('ad-description').value,
+                image: document.getElementById('ad-image').value,
+                whatsapp: document.getElementById('ad-whatsapp').value,
+                instagram: document.getElementById('ad-instagram').value
+            };
+
+            const saveBtn = document.getElementById('save-btn');
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Salvando...';
+
+            try {
+                const url = adId ? `/api/ads/${adId}` : '/api/ads';
+                const method = adId ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(adData)
+                });
+
+                if (response.ok) {
+                    closeModal();
+                    loadAds();
+                } else {
+                    const error = await response.json();
+                    alert('Erro: ' + (error.error || 'Não foi possível salvar o anúncio'));
+                }
+            } catch (error) {
+                console.error('Error saving ad:', error);
+                alert('Erro de conexão. Tente novamente.');
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.textContent = 'Salvar';
+            }
+        });
+
+        async function deleteAd(adId) {
+            if (!confirm('Tem certeza que deseja excluir este anúncio?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/ads/${adId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    loadAds();
+                } else {
+                    const error = await response.json();
+                    alert('Erro: ' + (error.error || 'Não foi possível excluir o anúncio'));
+                }
+            } catch (error) {
+                console.error('Error deleting ad:', error);
+                alert('Erro de conexão. Tente novamente.');
+            }
+        }
+
+        async function logout() {
+            try {
+                await fetch('/api/logout', { method: 'POST' });
+                window.location.href = 'login.html';
+            } catch (error) {
+                console.error('Logout error:', error);
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('ad-modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Initialize
+        checkAuth();
+        loadAds();
+    </script>
+</body>
+</html>

@@ -1,80 +1,457 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Bairro</title>
+    <title>Bem-vindo ao Bairro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
+        :root {
+            --primary-black: #0a0a0a;
+            --secondary-black: #1a1a1a;
+            --gold: #d4af37;
+            --cyber-blue: #00d4ff;
+            --cyber-purple: #a855f7;
+        }
+        
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
+            box-sizing: border-box;
         }
-        header {
-            background: #333;
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, var(--primary-black) 0%, var(--secondary-black) 100%);
             color: #fff;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--secondary-black) 0%, var(--primary-black) 100%);
+            padding: 2rem 0;
+            text-align: center;
+            border-bottom: 2px solid transparent;
+            border-image: linear-gradient(90deg, var(--cyber-blue), var(--cyber-purple), var(--gold)) 1;
+        }
+        
+        header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--cyber-blue), var(--cyber-purple), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        
+        header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+        }
+        
+        nav {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        nav ul li a {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            display: block;
+            position: relative;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+        
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 8px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--cyber-blue), var(--cyber-purple));
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        nav ul li a:hover::before {
+            opacity: 1;
+        }
+        
+        nav ul li a:hover {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(168, 85, 247, 0.1));
+            transform: translateY(-2px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .section {
+            background: rgba(26, 26, 26, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            margin: 2rem 0;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            scroll-margin-top: 80px;
+            transition: all 0.3s ease;
+        }
+        
+        .section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--cyber-blue), var(--cyber-purple), var(--gold));
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .section:hover::before {
+            opacity: 1;
+        }
+        
+        .section:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.2);
+        }
+        
+        .section h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+        
+        .announcement-item {
+            background: rgba(10, 10, 10, 0.5);
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 3px solid var(--cyber-blue);
+            transition: all 0.3s ease;
+        }
+        
+        .announcement-item:hover {
+            border-left-color: var(--cyber-purple);
+            background: rgba(10, 10, 10, 0.7);
+            transform: translateX(5px);
+        }
+        
+        .announcement-item h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            color: var(--cyber-blue);
+            margin-bottom: 0.75rem;
+        }
+        
+        .announcement-item p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1rem;
+        }
+        
+        .social-links {
+            margin-top: 1rem;
+        }
+        
+        .social-links strong {
+            color: var(--gold);
+            margin-right: 0.5rem;
+        }
+        
+        .social-links a {
+            color: var(--cyber-blue);
+            text-decoration: none;
+            margin-right: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .social-links a:hover {
+            color: var(--cyber-purple);
+            text-shadow: 0 0 10px var(--cyber-purple);
+        }
+        
+        .sobre-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        
+        .login-card {
+            background: rgba(10, 10, 10, 0.7);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            position: relative;
+        }
+        
+        .login-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--cyber-blue), var(--cyber-purple));
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.5;
+        }
+        
+        .login-card h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            color: var(--cyber-blue);
+            margin-bottom: 1.5rem;
             text-align: center;
         }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-            padding: 1rem 0;
+        
+        .form-group {
+            margin-bottom: 1.5rem;
         }
-        .section {
-            background: #fff;
-            margin: 1rem 0;
-            padding: 1rem;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        
+        .form-group label {
+            display: block;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
         }
-        .section h2 {
-            margin-top: 0;
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 6px;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
         }
-        .social-links a {
-            color: #1da1f2;
-            text-decoration: none;
-            margin-right: 10px;
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--cyber-blue);
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, var(--cyber-blue), var(--cyber-purple));
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .sobre-container {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Welcome to Bairro</h1>
-        <p>Your gateway to vibrant local experiences</p>
+        <h1>Bem-vindo ao Bairro</h1>
+        <p>Sua porta de entrada para experiências locais vibrantes</p>
     </header>
+    <nav>
+        <ul>
+            <li><a href="#anuncios">Anúncios</a></li>
+            <li><a href="#sobre">Sobre</a></li>
+            <li><a href="#login">Login Colaborador</a></li>
+        </ul>
+    </nav>
     <div class="container">
-        <div class="section">
-            <h2>Cassio Eletro Show</h2>
-            <p>Experience electrifying performances and captivating energy with Cassio Eletro Show!</p>
-            <div class="social-links">
-                <strong>Follow us:</strong>
-                <a href="https://www.facebook.com/cassioeletroshow" target="_blank">Facebook</a>
-                <a href="https://www.instagram.com/cassioeletroshow" target="_blank">Instagram</a>
+        <div id="anuncios" class="section">
+            <h2>Anúncios</h2>
+            <div class="announcement-item">
+                <h3>Cassio Eletro Show</h3>
+                <p>Experimente apresentações eletrizantes e energia cativante com Cassio Eletro Show!</p>
+                <div class="social-links">
+                    <strong>Siga-nos:</strong>
+                    <a href="https://www.facebook.com/cassioeletroshow" target="_blank">Facebook</a>
+                    <a href="https://www.instagram.com/cassioeletroshow" target="_blank">Instagram</a>
+                </div>
+            </div>
+            <div class="announcement-item">
+                <h3>Kasinha Publounge</h3>
+                <p>Junte-se a nós na Kasinha Publounge para um ambiente aconchegante, ótimas bebidas e momentos inesquecíveis.</p>
+                <div class="social-links">
+                    <strong>Siga-nos:</strong>
+                    <a href="https://www.facebook.com/kasinhapublounge" target="_blank">Facebook</a>
+                    <a href="https://www.instagram.com/kasinhapublounge" target="_blank">Instagram</a>
+                </div>
+            </div>
+            <div class="announcement-item">
+                <h3>Dalhe Brasa</h3>
+                <p>Saboreie o sabor de delícias grelhadas com maestria apenas no Dalhe Brasa.</p>
+                <div class="social-links">
+                    <strong>Siga-nos:</strong>
+                    <a href="https://www.facebook.com/dalhebrasa" target="_blank">Facebook</a>
+                    <a href="https://www.instagram.com/dalhebrasa" target="_blank">Instagram</a>
+                </div>
             </div>
         </div>
-        <div class="section">
-            <h2>Kasinha Publounge</h2>
-            <p>Join us at Kasinha Publounge for a cozy ambiance, great drinks, and unforgettable moments.</p>
-            <div class="social-links">
-                <strong>Follow us:</strong>
-                <a href="https://www.facebook.com/kasinhapublounge" target="_blank">Facebook</a>
-                <a href="https://www.instagram.com/kasinhapublounge" target="_blank">Instagram</a>
-            </div>
-        </div>
-        <div class="section">
-            <h2>Dalhe Brasa</h2>
-            <p>Savor the flavor of expertly grilled delights only at Dalhe Brasa.</p>
-            <div class="social-links">
-                <strong>Follow us:</strong>
-                <a href="https://www.facebook.com/dalhebrasa" target="_blank">Facebook</a>
-                <a href="https://www.instagram.com/dalhebrasa" target="_blank">Instagram</a>
+        <div id="sobre" class="section">
+            <h2>Sobre</h2>
+            <div class="sobre-container">
+                <div class="sobre-content">
+                    <p>Bairro é sua porta de entrada para experiências locais vibrantes. Conectamos você com os melhores estabelecimentos e eventos da região.</p>
+                    <p>Descubra apresentações eletrizantes, lounges aconchegantes e delícias grelhadas com perfeição. Junte-se à nossa comunidade e explore tudo o que o bairro tem a oferecer!</p>
+                </div>
+                <div id="login" class="login-card">
+                    <h3>Login Colaborador</h3>
+                    <form id="login-form" aria-label="Formulário de login do colaborador">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="seu@email.com" autocomplete="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Senha</label>
+                            <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" required>
+                        </div>
+                        <button type="submit" class="btn-login">Entrar</button>
+                        <div id="login-error" style="color: #ff4444; margin-top: 1rem; display: none;"></div>
+                        <div id="login-success" style="color: var(--cyber-blue); margin-top: 1rem; display: none;"></div>
+                    </form>
+                    <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                        <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; text-align: center;">
+                            <strong>Colaboradores de teste:</strong><br>
+                            colaborador1@bairro.com (Cassio Eletro Show)<br>
+                            colaborador2@bairro.com (Kasinha Publounge)<br>
+                            colaborador3@bairro.com (Dalhe Brasa)<br>
+                            <em>Senha para todos: senha123</em>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    
+    <script>
+        // Carregar anúncios dinamicamente
+        async function loadAnnouncements() {
+            try {
+                const response = await fetch('/api/announcements');
+                const announcements = await response.json();
+                
+                const container = document.getElementById('anuncios');
+                const announcementItems = announcements.map(a => `
+                    <div class="announcement-item">
+                        ${a.image ? `<img src="${a.image}" alt="${a.name}" style="width: 100%; border-radius: 8px; margin-bottom: 1rem;">` : ''}
+                        <h3>${a.name}</h3>
+                        <p>${a.description}</p>
+                        <div class="social-links">
+                            <strong>Siga-nos:</strong>
+                            ${a.facebook ? `<a href="${a.facebook}" target="_blank" rel="noopener noreferrer">Facebook</a>` : ''}
+                            ${a.instagram ? `<a href="${a.instagram}" target="_blank" rel="noopener noreferrer">Instagram</a>` : ''}
+                            ${a.whatsapp ? `<a href="https://wa.me/${a.whatsapp.replace(/\D/g, '')}" target="_blank" rel="noopener noreferrer">WhatsApp</a>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+                
+                container.innerHTML = `<h2>Anúncios</h2>${announcementItems}`;
+            } catch (error) {
+                console.error('Erro ao carregar anúncios:', error);
+            }
+        }
+        
+        // Login do colaborador
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('login-error');
+            const successDiv = document.getElementById('login-success');
+            
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+            
+            try {
+                const response = await fetch('/admin/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    localStorage.setItem('collaborator', JSON.stringify(result.collaborator));
+                    successDiv.textContent = 'Login realizado! Redirecionando...';
+                    successDiv.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        window.location.href = '/painel.html';
+                    }, 1500);
+                } else {
+                    errorDiv.textContent = result.error || 'Erro ao fazer login';
+                    errorDiv.style.display = 'block';
+                }
+            } catch (error) {
+                errorDiv.textContent = 'Erro de conexão. Verifique se o servidor está rodando.';
+                errorDiv.style.display = 'block';
+            }
+        });
+        
+        // Carregar anúncios ao iniciar
+        loadAnnouncements();
+    </script>
 </body>
 </html>

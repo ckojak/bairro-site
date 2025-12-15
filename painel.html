@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Colaborador - Bairro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-black: #0a0a0a;
+            --secondary-black: #1a1a1a;
+            --gold: #d4af37;
+            --cyber-blue: #00d4ff;
+            --cyber-purple: #a855f7;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, var(--primary-black) 0%, var(--secondary-black) 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, var(--cyber-blue), var(--cyber-purple), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .logout-btn {
+            float: right;
+            padding: 0.5rem 1rem;
+            background: rgba(168, 85, 247, 0.2);
+            border: 1px solid var(--cyber-purple);
+            border-radius: 6px;
+            color: var(--cyber-purple);
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background: var(--cyber-purple);
+            color: #fff;
+        }
+        
+        .panel-card {
+            background: rgba(26, 26, 26, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .panel-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--cyber-blue), var(--cyber-purple), var(--gold));
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.5;
+        }
+        
+        .panel-card h2 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 6px;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--cyber-blue);
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+        
+        .btn-save {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, var(--cyber-blue), var(--cyber-purple));
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+        }
+        
+        .image-preview {
+            margin-top: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+            max-width: 300px;
+        }
+        
+        .image-preview img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+        
+        .alert-success {
+            background: rgba(0, 212, 127, 0.2);
+            border: 1px solid rgba(0, 212, 127, 0.5);
+            color: #00d47f;
+        }
+        
+        .alert-error {
+            background: rgba(255, 68, 68, 0.2);
+            border: 1px solid rgba(255, 68, 68, 0.5);
+            color: #ff4444;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .info-box {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .info-box p {
+            color: var(--cyber-blue);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="logout-btn" onclick="logout()">Sair</button>
+        
+        <div class="header">
+            <h1>Painel do Colaborador</h1>
+            <p>Gerencie seu anúncio no Bairro</p>
+        </div>
+        
+        <div id="alert-container"></div>
+        
+        <div class="panel-card">
+            <h2>Meu Anúncio</h2>
+            
+            <div class="info-box">
+                <p><strong>Seu anúncio:</strong> <span id="announcement-name"></span> (ID: <span id="announcement-id"></span>)</p>
+                <p>Você pode editar a descrição, imagem, Instagram e WhatsApp do seu anúncio.</p>
+            </div>
+            
+            <form id="announcement-form">
+                <div class="form-group">
+                    <label for="description">Descrição do Anúncio</label>
+                    <textarea id="description" name="description" placeholder="Descreva seu estabelecimento..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="image">URL da Imagem</label>
+                    <input type="url" id="image" name="image" placeholder="https://exemplo.com/imagem.jpg">
+                    <div id="image-preview" class="image-preview hidden"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="instagram">Link do Instagram</label>
+                    <input type="url" id="instagram" name="instagram" placeholder="https://www.instagram.com/seu_usuario" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="whatsapp">Número do WhatsApp</label>
+                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="(00) 00000-0000">
+                </div>
+                
+                <button type="submit" class="btn-save">Salvar Alterações</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Verifica se o colaborador está logado
+        const collaboratorData = JSON.parse(localStorage.getItem('collaborator'));
+        
+        if (!collaboratorData) {
+            window.location.href = '/';
+        }
+        
+        // Carrega os dados do anúncio
+        async function loadAnnouncement() {
+            try {
+                const response = await fetch(`/api/announcements/${collaboratorData.announcementId}`);
+                const announcement = await response.json();
+                
+                document.getElementById('announcement-name').textContent = announcement.name;
+                document.getElementById('announcement-id').textContent = announcement.id;
+                document.getElementById('description').value = announcement.description;
+                document.getElementById('image').value = announcement.image || '';
+                document.getElementById('instagram').value = announcement.instagram;
+                document.getElementById('whatsapp').value = announcement.whatsapp || '';
+                
+                // Preview da imagem se existir
+                if (announcement.image) {
+                    showImagePreview(announcement.image);
+                }
+            } catch (error) {
+                showAlert('Erro ao carregar dados do anúncio', 'error');
+            }
+        }
+        
+        // Preview da imagem
+        document.getElementById('image').addEventListener('input', (e) => {
+            const url = e.target.value;
+            if (url) {
+                showImagePreview(url);
+            } else {
+                document.getElementById('image-preview').classList.add('hidden');
+            }
+        });
+        
+        function showImagePreview(url) {
+            const preview = document.getElementById('image-preview');
+            // Sanitizar URL para prevenir XSS
+            const sanitizedUrl = url.replace(/[<>"']/g, '');
+            const img = document.createElement('img');
+            img.src = sanitizedUrl;
+            img.alt = 'Preview';
+            img.onerror = function() {
+                this.parentElement.classList.add('hidden');
+            };
+            preview.innerHTML = '';
+            preview.appendChild(img);
+            preview.classList.remove('hidden');
+        }
+        
+        // Salva alterações do anúncio
+        document.getElementById('announcement-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                description: document.getElementById('description').value,
+                image: document.getElementById('image').value,
+                instagram: document.getElementById('instagram').value,
+                whatsapp: document.getElementById('whatsapp').value
+            };
+            
+            try {
+                const response = await fetch(`/api/announcements/${collaboratorData.announcementId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showAlert('Anúncio atualizado com sucesso!', 'success');
+                } else {
+                    showAlert('Erro ao atualizar anúncio', 'error');
+                }
+            } catch (error) {
+                showAlert('Erro ao salvar alterações', 'error');
+            }
+        });
+        
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alert-container');
+            const alertClass = type === 'success' ? 'alert-success' : 'alert-error';
+            alertContainer.innerHTML = `<div class="alert ${alertClass}">${message}</div>`;
+            
+            setTimeout(() => {
+                alertContainer.innerHTML = '';
+            }, 5000);
+        }
+        
+        function logout() {
+            localStorage.removeItem('collaborator');
+            window.location.href = '/';
+        }
+        
+        // Carrega dados ao iniciar
+        loadAnnouncement();
+    </script>
+</body>
+</html>

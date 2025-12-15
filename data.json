@@ -1,0 +1,55 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "$2a$10$iGAtc0cSnS32TnBtWb4uS.GUGNO0.2MKL/5QDgWWf29WFHKshlkiy",
+      "role": "admin",
+      "name": "Administrator",
+      "collaboratorNumber": "ADMIN-001"
+    },
+    {
+      "id": 2,
+      "username": "joao",
+      "password": "$2a$10$wEyvBtWJu/zmLFb.M/xIKexR7FVWZZeFNY6Ht1Gh5MyIqSwr.5b7e",
+      "role": "collaborator",
+      "name": "João Silva",
+      "collaboratorNumber": "COLLAB-002"
+    }
+  ],
+  "ads": [
+    {
+      "id": 1,
+      "userId": 1,
+      "category": "Shows e Eventos",
+      "title": "Cassio Eletro Show",
+      "description": "Experience electrifying performances and captivating energy with Cassio Eletro Show!",
+      "image": "https://via.placeholder.com/400x300?text=Cassio+Eletro+Show",
+      "whatsapp": "5511999999999",
+      "instagram": "cassioeletroshow",
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "category": "Lanchonetes",
+      "title": "Kasinha Publounge",
+      "description": "Join us at Kasinha Publounge for a cozy ambiance, great drinks, and unforgettable moments.",
+      "image": "https://via.placeholder.com/400x300?text=Kasinha+Publounge",
+      "whatsapp": "5511988888888",
+      "instagram": "kasinhapublounge",
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "category": "Lanchonetes",
+      "title": "Dalhe Brasa",
+      "description": "Savor the flavor of expertly grilled delights only at Dalhe Brasa.",
+      "image": "https://via.placeholder.com/400x300?text=Dalhe+Brasa",
+      "whatsapp": "5511977777777",
+      "instagram": "dalhebrasa",
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    }
+  ]
+}

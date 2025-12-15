@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Bairro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1a1a2e;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-left h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #d4af37;
+        }
+
+        .header-left .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #e94560;
+            color: white;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.6rem 1.5rem;
+            background: #e94560;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: #d4af37;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #16213e;
+        }
+
+        .btn-secondary:hover {
+            background: #e94560;
+        }
+
+        .btn-small {
+            padding: 0.4rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #16213e;
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            opacity: 1;
+            border-bottom-color: #e94560;
+            color: #d4af37;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section {
+            background: #16213e;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #d4af37;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th {
+            background: #0f1626;
+            padding: 1rem;
+            text-align: left;
+            color: #d4af37;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #0f1626;
+        }
+
+        tr:hover {
+            background: #0f1626;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-admin {
+            background: #e94560;
+        }
+
+        .badge-collaborator {
+            background: #d4af37;
+            color: #1a1a2e;
+        }
+
+        .ads-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .ad-card {
+            background: #0f1626;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .ad-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #1a1a2e;
+        }
+
+        .ad-content {
+            padding: 1.5rem;
+        }
+
+        .ad-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: #d4af37;
+            margin-bottom: 0.5rem;
+        }
+
+        .ad-category {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #e94560;
+            color: white;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .ad-meta {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-bottom: 0.5rem;
+        }
+
+        .ad-description {
+            color: #ffffff;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .ad-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: #16213e;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #d4af37;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #d4af37;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #1a1a2e;
+            border-radius: 8px;
+            background: #0f1626;
+            color: #ffffff;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 2rem;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        .close-modal:hover {
+            opacity: 1;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            color: #d4af37;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 3rem;
+            color: #ffffff;
+            opacity: 0.7;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: #0f1626;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #d4af37;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .ads-grid {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <h1>Admin Dashboard <span class="badge">ADMINISTRADOR</span></h1>
+        </div>
+        <div class="header-right">
+            <a href="public.html" class="btn btn-secondary">Ver Site</a>
+            <button class="btn" onclick="logout()">Sair</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Statistics -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="total-collaborators">0</div>
+                <div class="stat-label">Colaboradores</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="total-ads">0</div>
+                <div class="stat-label">Total de Anúncios</div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('collaborators')">Colaboradores</button>
+            <button class="tab" onclick="switchTab('ads')">Todos os Anúncios</button>
+        </div>
+
+        <!-- Collaborators Tab -->
+        <div id="collaborators-tab" class="tab-content active">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Gerenciar Colaboradores</h2>
+                    <button class="btn" onclick="openAddCollaboratorModal()">+ Novo Colaborador</button>
+                </div>
+                
+                <div id="collaborators-loading" class="loading">Carregando colaboradores...</div>
+                <div id="collaborators-container"></div>
+            </div>
+        </div>
+
+        <!-- Ads Tab -->
+        <div id="ads-tab" class="tab-content">
+            <div class="section">
+                <h2 class="section-title">Todos os Anúncios</h2>
+                
+                <div id="ads-loading" class="loading">Carregando anúncios...</div>
+                <div id="ads-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Collaborator Modal -->
+    <div id="collaborator-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeCollaboratorModal()">&times;</button>
+            <h2 class="modal-title" id="collaborator-modal-title">Novo Colaborador</h2>
+            <form id="collaborator-form">
+                <input type="hidden" id="collaborator-id">
+                
+                <div class="form-group">
+                    <label for="collaborator-name">Nome *</label>
+                    <input type="text" id="collaborator-name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="collaborator-username">Usuário *</label>
+                    <input type="text" id="collaborator-username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="collaborator-password">Senha *</label>
+                    <input type="password" id="collaborator-password" required>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeCollaboratorModal()">Cancelar</button>
+                    <button type="submit" class="btn" id="save-collaborator-btn">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Ad Edit Modal -->
+    <div id="ad-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeAdModal()">&times;</button>
+            <h2 class="modal-title">Editar Anúncio</h2>
+            <form id="ad-form">
+                <input type="hidden" id="ad-id">
+                
+                <div class="form-group">
+                    <label for="ad-category">Categoria *</label>
+                    <select id="ad-category" required>
+                        <option value="Bebidas">Bebidas</option>
+                        <option value="Lanchonetes">Lanchonetes</option>
+                        <option value="Eletrodomésticos">Eletrodomésticos</option>
+                        <option value="Shows e Eventos">Shows e Eventos</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ad-title">Título *</label>
+                    <input type="text" id="ad-title" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="ad-description">Descrição *</label>
+                    <textarea id="ad-description" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="ad-image">URL da Imagem</label>
+                    <input type="url" id="ad-image">
+                </div>
+
+                <div class="form-group">
+                    <label for="ad-whatsapp">WhatsApp</label>
+                    <input type="text" id="ad-whatsapp">
+                </div>
+
+                <div class="form-group">
+                    <label for="ad-instagram">Instagram</label>
+                    <input type="text" id="ad-instagram">
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeAdModal()">Cancelar</button>
+                    <button type="submit" class="btn" id="save-ad-btn">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let collaborators = [];
+        let allAds = [];
+
+        // Check authentication
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/auth/me');
+                if (!response.ok) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                currentUser = await response.json();
+                
+                // Redirect non-admin users to dashboard
+                if (currentUser.role !== 'admin') {
+                    window.location.href = 'dashboard.html';
+                }
+            } catch (error) {
+                console.error('Auth check error:', error);
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+
+            // Load data if needed
+            if (tabName === 'ads' && allAds.length === 0) {
+                loadAds();
+            }
+        }
+
+        // Load collaborators
+        async function loadCollaborators() {
+            try {
+                const response = await fetch('/api/admin/collaborators');
+                collaborators = await response.json();
+
+                document.getElementById('collaborators-loading').style.display = 'none';
+                document.getElementById('total-collaborators').textContent = collaborators.filter(c => c.role !== 'admin').length;
+
+                const container = document.getElementById('collaborators-container');
+                
+                if (collaborators.length === 0) {
+                    container.innerHTML = '<div class="empty-message">Nenhum colaborador cadastrado.</div>';
+                    return;
+                }
+
+                const table = document.createElement('table');
+                table.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Usuário</th>
+                            <th>Função</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="collaborators-tbody"></tbody>
+                `;
+
+                const tbody = table.querySelector('tbody');
+                collaborators.forEach(collab => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${collab.collaboratorNumber}</td>
+                        <td>${collab.name}</td>
+                        <td>${collab.username}</td>
+                        <td><span class="badge badge-${collab.role}">${collab.role === 'admin' ? 'Admin' : 'Colaborador'}</span></td>
+                        <td>
+                            ${collab.role !== 'admin' ? `
+                                <button class="btn btn-small btn-secondary" onclick="editCollaborator(${collab.id})">Editar</button>
+                                <button class="btn btn-small" style="background: #e94560;" onclick="deleteCollaborator(${collab.id})">Excluir</button>
+                            ` : '<em>Admin principal</em>'}
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+                container.innerHTML = '';
+                container.appendChild(table);
+            } catch (error) {
+                console.error('Error loading collaborators:', error);
+                document.getElementById('collaborators-loading').textContent = 'Erro ao carregar colaboradores.';
+            }
+        }
+
+        // Load all ads
+        async function loadAds() {
+            try {
+                const response = await fetch('/api/admin/ads');
+                allAds = await response.json();
+
+                document.getElementById('ads-loading').style.display = 'none';
+                document.getElementById('total-ads').textContent = allAds.length;
+
+                const container = document.getElementById('ads-container');
+                
+                if (allAds.length === 0) {
+                    container.innerHTML = '<div class="empty-message">Nenhum anúncio cadastrado.</div>';
+                    return;
+                }
+
+                const grid = document.createElement('div');
+                grid.className = 'ads-grid';
+
+                allAds.forEach(ad => {
+                    const card = createAdCard(ad);
+                    grid.appendChild(card);
+                });
+
+                container.innerHTML = '';
+                container.appendChild(grid);
+            } catch (error) {
+                console.error('Error loading ads:', error);
+                document.getElementById('ads-loading').textContent = 'Erro ao carregar anúncios.';
+            }
+        }
+
+        function createAdCard(ad) {
+            const card = document.createElement('div');
+            card.className = 'ad-card';
+
+            const image = document.createElement('img');
+            image.className = 'ad-image';
+            image.src = ad.image;
+            image.alt = ad.title;
+            image.onerror = function() {
+                this.src = 'https://via.placeholder.com/400x300?text=Sem+Imagem';
+            };
+            card.appendChild(image);
+
+            const content = document.createElement('div');
+            content.className = 'ad-content';
+
+            const category = document.createElement('span');
+            category.className = 'ad-category';
+            category.textContent = ad.category;
+            content.appendChild(category);
+
+            const title = document.createElement('h3');
+            title.className = 'ad-title';
+            title.textContent = ad.title;
+            content.appendChild(title);
+
+            const meta = document.createElement('div');
+            meta.className = 'ad-meta';
+            meta.textContent = `Por: ${ad.userName} (${ad.collaboratorNumber})`;
+            content.appendChild(meta);
+
+            const description = document.createElement('p');
+            description.className = 'ad-description';
+            description.textContent = ad.description;
+            content.appendChild(description);
+
+            const actions = document.createElement('div');
+            actions.className = 'ad-actions';
+
+            const editBtn = document.createElement('button');
+            editBtn.className = 'btn btn-small';
+            editBtn.style.background = '#d4af37';
+            editBtn.textContent = 'Editar';
+            editBtn.onclick = () => openEditAdModal(ad);
+            actions.appendChild(editBtn);
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'btn btn-small';
+            deleteBtn.style.background = '#e94560';
+            deleteBtn.textContent = 'Excluir';
+            deleteBtn.onclick = () => deleteAd(ad.id);
+            actions.appendChild(deleteBtn);
+
+            content.appendChild(actions);
+            card.appendChild(content);
+
+            return card;
+        }
+
+        // Collaborator management
+        function openAddCollaboratorModal() {
+            document.getElementById('collaborator-modal-title').textContent = 'Novo Colaborador';
+            document.getElementById('collaborator-form').reset();
+            document.getElementById('collaborator-id').value = '';
+            document.getElementById('collaborator-password').required = true;
+            document.getElementById('collaborator-modal').style.display = 'block';
+        }
+
+        function editCollaborator(id) {
+            const collab = collaborators.find(c => c.id === id);
+            if (!collab) return;
+
+            document.getElementById('collaborator-modal-title').textContent = 'Editar Colaborador';
+            document.getElementById('collaborator-id').value = collab.id;
+            document.getElementById('collaborator-name').value = collab.name;
+            document.getElementById('collaborator-username').value = collab.username;
+            document.getElementById('collaborator-password').value = '';
+            document.getElementById('collaborator-password').required = false;
+            document.getElementById('collaborator-password').placeholder = 'Deixe em branco para não alterar';
+            document.getElementById('collaborator-modal').style.display = 'block';
+        }
+
+        function closeCollaboratorModal() {
+            document.getElementById('collaborator-modal').style.display = 'none';
+            document.getElementById('collaborator-password').placeholder = '';
+        }
+
+        document.getElementById('collaborator-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const collabId = document.getElementById('collaborator-id').value;
+            const collabData = {
+                name: document.getElementById('collaborator-name').value,
+                username: document.getElementById('collaborator-username').value,
+                password: document.getElementById('collaborator-password').value
+            };
+
+            // Remove password if empty on edit
+            if (collabId && !collabData.password) {
+                delete collabData.password;
+            }
+
+            const saveBtn = document.getElementById('save-collaborator-btn');
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Salvando...';
+
+            try {
+                const url = collabId ? `/api/admin/collaborators/${collabId}` : '/api/admin/collaborators';
+                const method = collabId ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(collabData)
+                });
+
+                if (response.ok) {
+                    closeCollaboratorModal();
+                    loadCollaborators();
+                } else {
+                    const error = await response.json();
+                    alert('Erro: ' + (error.error || 'Não foi possível salvar o colaborador'));
+                }
+            } catch (error) {
+                console.error('Error saving collaborator:', error);
+                alert('Erro de conexão. Tente novamente.');
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.textContent = 'Salvar';
+            }
+        });
+
+        async function deleteCollaborator(id) {
+            const collab = collaborators.find(c => c.id === id);
+            if (!confirm(`Tem certeza que deseja excluir o colaborador "${collab.name}"? Todos os anúncios deste colaborador também serão excluídos.`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/admin/collaborators/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    loadCollaborators();
+                    // Reload ads if on ads tab
+                    if (allAds.length > 0) {
+                        loadAds();
+                    }
+                } else {
+                    const error = await response.json();
+                    alert('Erro: ' + (error.error || 'Não foi possível excluir o colaborador'));
+                }
+            } catch (error) {
+                console.error('Error deleting collaborator:', error);
+                alert('Erro de conexão. Tente novamente.');
+            }
+        }
+
+        // Ad management
+        function openEditAdModal(ad) {
+            document.getElementById('ad-id').value = ad.id;
+            document.getElementById('ad-category').value = ad.category;
+            document.getElementById('ad-title').value = ad.title;
+            document.getElementById('ad-description').value = ad.description;
+            document.getElementById('ad-image').value = ad.image;
+            document.getElementById('ad-whatsapp').value = ad.whatsapp;
+            document.getElementById('ad-instagram').value = ad.instagram;
+            document.getElementById('ad-modal').style.display = 'block';
+        }
+
+        function closeAdModal() {
+            document.getElementById('ad-modal').style.display = 'none';
+        }
+
+        document.getElementById('ad-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const adId = document.getElementById('ad-id').value;
+            const adData = {
+                category: document.getElementById('ad-category').value,
+                title: document.getElementById('ad-title').value,
+                description: document.getElementById('ad-description').value,
+                image: document.getElementById('ad-image').value,
+                whatsapp: document.getElementById('ad-whatsapp').value,
+                instagram: document.getElementById('ad-instagram').value
+            };
+
+            const saveBtn = document.getElementById('save-ad-btn');
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Salvando...';
+
+            try {
+                const response = await fetch(`/api/ads/${adId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(adData)
+                });
+
+                if (response.ok) {
+                    closeAdModal();
+                    loadAds();
+                } else {
+                    const error = await response.json();
+                    alert('Erro: ' + (error.error || 'Não foi possível salvar o anúncio'));
+                }
+            } catch (error) {
+                console.error('Error saving ad:', error);
+                alert('Erro de conexão. Tente novamente.');
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.textContent = 'Salvar';
+            }
+        });
+
+        async function deleteAd(adId) {
+            if (!confirm('Tem certeza que deseja excluir este anúncio?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/ads/${adId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    loadAds();
+                } else {
+                    const error = await response.json();
+                    alert('Erro: ' + (error.error || 'Não foi possível excluir o anúncio'));
+                }
+            } catch (error) {
+                console.error('Error deleting ad:', error);
+                alert('Erro de conexão. Tente novamente.');
+            }
+        }
+
+        async function logout() {
+            try {
+                await fetch('/api/logout', { method: 'POST' });
+                window.location.href = 'login.html';
+            } catch (error) {
+                console.error('Logout error:', error);
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Load ads count on initial page load
+        async function loadAdsCount() {
+            try {
+                const response = await fetch('/api/admin/ads');
+                const ads = await response.json();
+                document.getElementById('total-ads').textContent = ads.length;
+            } catch (error) {
+                console.error('Error loading ads count:', error);
+            }
+        }
+
+        // Initialize
+        checkAuth();
+        loadCollaborators();
+        loadAdsCount();
+    </script>
+</body>
+</html>

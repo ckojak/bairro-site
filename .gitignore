@@ -1,0 +1,5 @@
+node_modules/
+npm-debug.log
+.env
+# Uncomment the following line in production to avoid committing user data
+# data.json

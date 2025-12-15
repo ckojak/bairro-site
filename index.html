@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Bairro</title>
     <style>
+        :root {
+            --nav-height: 60px;
+            --scroll-offset: 80px;
+            --mobile-menu-max-height: 500px;
+        }
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
@@ -72,7 +77,7 @@
                 transition: max-height 0.3s ease;
             }
             nav ul.active {
-                max-height: 500px;
+                max-height: var(--mobile-menu-max-height);
                 padding: 1rem 0;
             }
             .menu-toggle {
@@ -97,7 +102,7 @@
             padding: 1rem;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            scroll-margin-top: 80px;
+            scroll-margin-top: var(--scroll-offset);
         }
         .section h2 {
             margin-top: 0;
@@ -109,10 +114,10 @@
         }
     </style>
 </head>
-<body>
+<body id="top">
     <nav>
         <div class="container">
-            <a href="#" class="logo">Bairro</a>
+            <a href="#top" class="logo">Bairro</a>
             <button class="menu-toggle" aria-label="Toggle menu">☰</button>
             <ul id="nav-menu">
                 <li><a href="#anuncios">anúncios</a></li>
@@ -175,10 +180,6 @@
         document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const href = this.getAttribute('href');
-                // Skip if it's just '#' (like the logo link)
-                if (href === '#') {
-                    return;
-                }
                 e.preventDefault();
                 const target = document.querySelector(href);
                 if (target) {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Bairro</title>
+    <title>Bem-vindo ao Bairro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
@@ -210,17 +210,108 @@
             color: var(--cyber-purple);
             text-shadow: 0 0 10px var(--cyber-purple);
         }
+        
+        .sobre-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        
+        .login-card {
+            background: rgba(10, 10, 10, 0.7);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            position: relative;
+        }
+        
+        .login-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--cyber-blue), var(--cyber-purple));
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.5;
+        }
+        
+        .login-card h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            color: var(--cyber-blue);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 6px;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--cyber-blue);
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, var(--cyber-blue), var(--cyber-purple));
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .sobre-container {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>Welcome to Bairro</h1>
-        <p>Your gateway to vibrant local experiences</p>
+        <h1>Bem-vindo ao Bairro</h1>
+        <p>Sua porta de entrada para experiências locais vibrantes</p>
     </header>
     <nav>
         <ul>
             <li><a href="#anuncios">Anúncios</a></li>
             <li><a href="#sobre">Sobre</a></li>
+            <li><a href="#login">Login Colaborador</a></li>
         </ul>
     </nav>
     <div class="container">
@@ -228,27 +319,27 @@
             <h2>Anúncios</h2>
             <div class="announcement-item">
                 <h3>Cassio Eletro Show</h3>
-                <p>Experience electrifying performances and captivating energy with Cassio Eletro Show!</p>
+                <p>Experimente apresentações eletrizantes e energia cativante com Cassio Eletro Show!</p>
                 <div class="social-links">
-                    <strong>Follow us:</strong>
+                    <strong>Siga-nos:</strong>
                     <a href="https://www.facebook.com/cassioeletroshow" target="_blank">Facebook</a>
                     <a href="https://www.instagram.com/cassioeletroshow" target="_blank">Instagram</a>
                 </div>
             </div>
             <div class="announcement-item">
                 <h3>Kasinha Publounge</h3>
-                <p>Join us at Kasinha Publounge for a cozy ambiance, great drinks, and unforgettable moments.</p>
+                <p>Junte-se a nós na Kasinha Publounge para um ambiente aconchegante, ótimas bebidas e momentos inesquecíveis.</p>
                 <div class="social-links">
-                    <strong>Follow us:</strong>
+                    <strong>Siga-nos:</strong>
                     <a href="https://www.facebook.com/kasinhapublounge" target="_blank">Facebook</a>
                     <a href="https://www.instagram.com/kasinhapublounge" target="_blank">Instagram</a>
                 </div>
             </div>
             <div class="announcement-item">
                 <h3>Dalhe Brasa</h3>
-                <p>Savor the flavor of expertly grilled delights only at Dalhe Brasa.</p>
+                <p>Saboreie o sabor de delícias grelhadas com maestria apenas no Dalhe Brasa.</p>
                 <div class="social-links">
-                    <strong>Follow us:</strong>
+                    <strong>Siga-nos:</strong>
                     <a href="https://www.facebook.com/dalhebrasa" target="_blank">Facebook</a>
                     <a href="https://www.instagram.com/dalhebrasa" target="_blank">Instagram</a>
                 </div>
@@ -256,8 +347,26 @@
         </div>
         <div id="sobre" class="section">
             <h2>Sobre</h2>
-            <p>Bairro é sua porta de entrada para experiências locais vibrantes. Conectamos você com os melhores estabelecimentos e eventos da região.</p>
-            <p>Descubra apresentações eletrizantes, lounges aconchegantes e delícias grelhadas com perfeição. Junte-se à nossa comunidade e explore tudo o que o bairro tem a oferecer!</p>
+            <div class="sobre-container">
+                <div class="sobre-content">
+                    <p>Bairro é sua porta de entrada para experiências locais vibrantes. Conectamos você com os melhores estabelecimentos e eventos da região.</p>
+                    <p>Descubra apresentações eletrizantes, lounges aconchegantes e delícias grelhadas com perfeição. Junte-se à nossa comunidade e explore tudo o que o bairro tem a oferecer!</p>
+                </div>
+                <div id="login" class="login-card">
+                    <h3>Login Colaborador</h3>
+                    <form>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Senha</label>
+                            <input type="password" id="password" name="password" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn-login">Entrar</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </body>

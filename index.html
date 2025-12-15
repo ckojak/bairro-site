@@ -3,78 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Bairro</title>
+    <title>Bairro Site</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
             margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
+            font-family: Arial, sans-serif;
         }
-        header {
-            background: #333;
-            color: #fff;
-            padding: 1rem 0;
-            text-align: center;
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #333;
+            color: white;
+            padding: 1rem;
         }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-            padding: 1rem 0;
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+        }
+        .navbar a:hover {
+            background-color: #575757;
         }
         .section {
-            background: #fff;
-            margin: 1rem 0;
-            padding: 1rem;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            text-align: center;
         }
-        .section h2 {
-            margin-top: 0;
+        .home {
+            background-color: #f4f4f4;
         }
-        .social-links a {
-            color: #1da1f2;
-            text-decoration: none;
-            margin-right: 10px;
+        .contato {
+            background-color: #e2e2e2;
+        }
+        .sobre {
+            background-color: #d0d0d0;
+        }
+        .localizacao {
+            background-color: #bebebe;
+        }
+        .menu {
+            background-color: #acacac;
+        }
+        .login {
+            background-color: #9a9a9a;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to Bairro</h1>
-        <p>Your gateway to vibrant local experiences</p>
-    </header>
-    <div class="container">
-        <div class="section">
-            <h2>Cassio Eletro Show</h2>
-            <p>Experience electrifying performances and captivating energy with Cassio Eletro Show!</p>
-            <div class="social-links">
-                <strong>Follow us:</strong>
-                <a href="https://www.facebook.com/cassioeletroshow" target="_blank">Facebook</a>
-                <a href="https://www.instagram.com/cassioeletroshow" target="_blank">Instagram</a>
-            </div>
-        </div>
-        <div class="section">
-            <h2>Kasinha Publounge</h2>
-            <p>Join us at Kasinha Publounge for a cozy ambiance, great drinks, and unforgettable moments.</p>
-            <div class="social-links">
-                <strong>Follow us:</strong>
-                <a href="https://www.facebook.com/kasinhapublounge" target="_blank">Facebook</a>
-                <a href="https://www.instagram.com/kasinhapublounge" target="_blank">Instagram</a>
-            </div>
-        </div>
-        <div class="section">
-            <h2>Dalhe Brasa</h2>
-            <p>Savor the flavor of expertly grilled delights only at Dalhe Brasa.</p>
-            <div class="social-links">
-                <strong>Follow us:</strong>
-                <a href="https://www.facebook.com/dalhebrasa" target="_blank">Facebook</a>
-                <a href="https://www.instagram.com/dalhebrasa" target="_blank">Instagram</a>
-            </div>
-        </div>
+    <nav class="navbar">
+        <a href="#home">Home</a>
+        <a href="#contato">Contato</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#localizacao">Localização</a>
+        <a href="#menu">Menu</a>
+        <a href="#login">Login de Colaborador</a>
+    </nav>
+
+    <div id="home" class="section home">
+        <h1>Bem-vindo ao Bairro</h1>
+        <p>Descubra mais sobre nosso site.</p>
+    </div>
+
+    <div id="contato" class="section contato">
+        <h1>Contato</h1>
+        <p>Entre em contato conosco através do formulário abaixo.</p>
+    </div>
+
+    <div id="sobre" class="section sobre">
+        <h1>Sobre</h1>
+        <p>Saiba mais sobre o nosso trabalho e missão!</p>
+    </div>
+
+    <div id="localizacao" class="section localizacao">
+        <h1>Localização</h1>
+        <p>Veja onde estamos localizados e venha nos visitar.</p>
+    </div>
+
+    <div id="menu" class="section menu">
+        <h1>Menu</h1>
+        <p>Confira nosso cardápio especial.</p>
+    </div>
+
+    <div id="login" class="section login">
+        <h1>Login de Colaborador</h1>
+        <p>Acesse sua conta para mais informações.</p>
     </div>
 </body>
 </html>

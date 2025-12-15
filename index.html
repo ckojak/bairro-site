@@ -95,6 +95,7 @@
             border-radius: 8px;
             padding: 2px;
             background: linear-gradient(135deg, var(--cyber-blue), var(--cyber-purple));
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
@@ -137,6 +138,7 @@
             border-radius: 12px;
             padding: 2px;
             background: linear-gradient(135deg, var(--cyber-blue), var(--cyber-purple), var(--gold));
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
@@ -207,15 +209,6 @@
         .social-links a:hover {
             color: var(--cyber-purple);
             text-shadow: 0 0 10px var(--cyber-purple);
-        }
-        
-        @keyframes borderGlow {
-            0%, 100% {
-                opacity: 0.5;
-            }
-            50% {
-                opacity: 1;
-            }
         }
     </style>
 </head>

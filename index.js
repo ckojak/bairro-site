@@ -1,3 +1,20 @@
+/**
+ * Sistema de Gerenciamento de Anúncios - Bairro
+ * 
+ * AVISO DE SEGURANÇA:
+ * Este código é para DESENVOLVIMENTO/DEMONSTRAÇÃO apenas.
+ * 
+ * Para uso em PRODUÇÃO, implemente:
+ * - Hash de senhas com bcrypt
+ * - Autenticação JWT ou sessions
+ * - Banco de dados real (não em memória)
+ * - Validação completa de inputs
+ * - Rate limiting
+ * - HTTPS
+ * - CORS apropriado
+ * - Upload seguro de imagens
+ */
+
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -102,17 +119,43 @@ app.put('/api/announcements/:id', (req, res) => {
   const id = parseInt(req.params.id);
   const { description, image, instagram, whatsapp } = req.body;
   
+  // NOTA DE SEGURANÇA: Em produção, adicionar autenticação JWT/session aqui
+  // e verificar se o usuário logado tem permissão para editar este anúncio
+  
   const announcementIndex = announcements.findIndex(a => a.id === id);
   
   if (announcementIndex === -1) {
     return res.status(404).json({ error: 'Anúncio não encontrado' });
   }
   
-  // Atualiza apenas os campos permitidos
-  if (description !== undefined) announcements[announcementIndex].description = description;
-  if (image !== undefined) announcements[announcementIndex].image = image;
-  if (instagram !== undefined) announcements[announcementIndex].instagram = instagram;
-  if (whatsapp !== undefined) announcements[announcementIndex].whatsapp = whatsapp;
+  // Validação básica de entrada
+  if (description !== undefined) {
+    if (typeof description !== 'string' || description.length > 500) {
+      return res.status(400).json({ error: 'Descrição inválida (máx 500 caracteres)' });
+    }
+    announcements[announcementIndex].description = description;
+  }
+  
+  if (image !== undefined) {
+    if (typeof image !== 'string' || (image && !image.match(/^https?:\/\/.+/))) {
+      return res.status(400).json({ error: 'URL de imagem inválida' });
+    }
+    announcements[announcementIndex].image = image;
+  }
+  
+  if (instagram !== undefined) {
+    if (typeof instagram !== 'string' || (instagram && !instagram.match(/^https?:\/\/.+/))) {
+      return res.status(400).json({ error: 'URL do Instagram inválida' });
+    }
+    announcements[announcementIndex].instagram = instagram;
+  }
+  
+  if (whatsapp !== undefined) {
+    if (typeof whatsapp !== 'string' || (whatsapp && !whatsapp.match(/^[\d\s\(\)\-\+]+$/))) {
+      return res.status(400).json({ error: 'Número de WhatsApp inválido' });
+    }
+    announcements[announcementIndex].whatsapp = whatsapp;
+  }
   
   res.json({ 
     success: true, 

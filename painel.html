@@ -295,7 +295,16 @@
         
         function showImagePreview(url) {
             const preview = document.getElementById('image-preview');
-            preview.innerHTML = `<img src="${url}" alt="Preview" onerror="this.parentElement.classList.add('hidden')">`;
+            // Sanitizar URL para prevenir XSS
+            const sanitizedUrl = url.replace(/[<>"']/g, '');
+            const img = document.createElement('img');
+            img.src = sanitizedUrl;
+            img.alt = 'Preview';
+            img.onerror = function() {
+                this.parentElement.classList.add('hidden');
+            };
+            preview.innerHTML = '';
+            preview.appendChild(img);
             preview.classList.remove('hidden');
         }
         

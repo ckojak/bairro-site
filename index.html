@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +19,37 @@
             padding: 1rem 0;
             text-align: center;
         }
+        nav {
+            background: #444;
+            color: #fff;
+            padding: 0.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        nav ul li {
+            margin: 0 1rem;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            display: block;
+            transition: background 0.3s ease;
+        }
+        nav ul li a:hover {
+            background: #555;
+            border-radius: 4px;
+        }
         .container {
             width: 80%;
             margin: auto;
@@ -31,6 +62,7 @@
             padding: 1rem;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            scroll-margin-top: 60px;
         }
         .section h2 {
             margin-top: 0;
@@ -47,33 +79,47 @@
         <h1>Welcome to Bairro</h1>
         <p>Your gateway to vibrant local experiences</p>
     </header>
+    <nav>
+        <ul>
+            <li><a href="#anuncios">Anúncios</a></li>
+            <li><a href="#sobre">Sobre</a></li>
+        </ul>
+    </nav>
     <div class="container">
-        <div class="section">
-            <h2>Cassio Eletro Show</h2>
-            <p>Experience electrifying performances and captivating energy with Cassio Eletro Show!</p>
-            <div class="social-links">
-                <strong>Follow us:</strong>
-                <a href="https://www.facebook.com/cassioeletroshow" target="_blank">Facebook</a>
-                <a href="https://www.instagram.com/cassioeletroshow" target="_blank">Instagram</a>
+        <div id="anuncios" class="section">
+            <h2>Anúncios</h2>
+            <div class="section">
+                <h3>Cassio Eletro Show</h3>
+                <p>Experience electrifying performances and captivating energy with Cassio Eletro Show!</p>
+                <div class="social-links">
+                    <strong>Follow us:</strong>
+                    <a href="https://www.facebook.com/cassioeletroshow" target="_blank">Facebook</a>
+                    <a href="https://www.instagram.com/cassioeletroshow" target="_blank">Instagram</a>
+                </div>
+            </div>
+            <div class="section">
+                <h3>Kasinha Publounge</h3>
+                <p>Join us at Kasinha Publounge for a cozy ambiance, great drinks, and unforgettable moments.</p>
+                <div class="social-links">
+                    <strong>Follow us:</strong>
+                    <a href="https://www.facebook.com/kasinhapublounge" target="_blank">Facebook</a>
+                    <a href="https://www.instagram.com/kasinhapublounge" target="_blank">Instagram</a>
+                </div>
+            </div>
+            <div class="section">
+                <h3>Dalhe Brasa</h3>
+                <p>Savor the flavor of expertly grilled delights only at Dalhe Brasa.</p>
+                <div class="social-links">
+                    <strong>Follow us:</strong>
+                    <a href="https://www.facebook.com/dalhebrasa" target="_blank">Facebook</a>
+                    <a href="https://www.instagram.com/dalhebrasa" target="_blank">Instagram</a>
+                </div>
             </div>
         </div>
-        <div class="section">
-            <h2>Kasinha Publounge</h2>
-            <p>Join us at Kasinha Publounge for a cozy ambiance, great drinks, and unforgettable moments.</p>
-            <div class="social-links">
-                <strong>Follow us:</strong>
-                <a href="https://www.facebook.com/kasinhapublounge" target="_blank">Facebook</a>
-                <a href="https://www.instagram.com/kasinhapublounge" target="_blank">Instagram</a>
-            </div>
-        </div>
-        <div class="section">
-            <h2>Dalhe Brasa</h2>
-            <p>Savor the flavor of expertly grilled delights only at Dalhe Brasa.</p>
-            <div class="social-links">
-                <strong>Follow us:</strong>
-                <a href="https://www.facebook.com/dalhebrasa" target="_blank">Facebook</a>
-                <a href="https://www.instagram.com/dalhebrasa" target="_blank">Instagram</a>
-            </div>
+        <div id="sobre" class="section">
+            <h2>Sobre</h2>
+            <p>Bairro é sua porta de entrada para experiências locais vibrantes. Conectamos você com os melhores estabelecimentos e eventos da região.</p>
+            <p>Descubra apresentações eletrizantes, lounges aconchegantes e delícias grelhadas com perfeição. Junte-se à nossa comunidade e explore tudo o que o bairro tem a oferecer!</p>
         </div>
     </div>
 </body>

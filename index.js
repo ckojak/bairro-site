@@ -21,6 +21,8 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware setup
 app.use(express.json());
+// NOTA: Em produção, servir apenas a pasta 'public' e não o diretório raiz
+// Exemplo: app.use(express.static('public'));
 app.use(express.static('.'));
 
 // In-memory database (em produção, usar um banco de dados real)

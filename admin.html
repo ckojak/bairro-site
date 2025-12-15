@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bairro - Admin Panel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        
+        header {
+            background: #1a1a2e;
+            color: #fff;
+            padding: 1.5rem 0;
+            text-align: center;
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 2rem auto;
+        }
+        
+        .admin-section {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .admin-section h2 {
+            margin-top: 0;
+            color: #1a1a2e;
+            border-bottom: 2px solid #e94560;
+            padding-bottom: 0.5rem;
+        }
+        
+        .collaborator-card {
+            background: #f9f9f9;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #e94560;
+        }
+        
+        .collaborator-card h3 {
+            margin-top: 0;
+            color: #1a1a2e;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #1a1a2e;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #e94560;
+        }
+        
+        .btn {
+            background: #e94560;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #d4af37;
+        }
+        
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .btn-secondary {
+            background: #16213e;
+            margin-left: 0.5rem;
+        }
+        
+        .btn-secondary:hover {
+            background: #1a1a2e;
+        }
+        
+        .message {
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+        
+        .message.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        .message.info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        
+        .current-url {
+            background: #fff;
+            padding: 0.5rem;
+            border-radius: 5px;
+            margin: 0.5rem 0;
+            font-family: monospace;
+            color: #e94560;
+        }
+        
+        .validation-result {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .validation-result.valid {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .validation-result.invalid {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+            
+            .admin-section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🏢 Bairro Admin Panel</h1>
+        <p>Manage Instagram Integration</p>
+    </header>
+    
+    <div class="container">
+        <div class="admin-section">
+            <h2>Instagram URL Management</h2>
+            <p>Update Instagram URLs for collaborators. Make sure to use the correct format: <code>https://www.instagram.com/username</code></p>
+            
+            <div id="collaborators-list">
+                <div class="message info">Loading collaborators...</div>
+            </div>
+        </div>
+        
+        <div class="admin-section">
+            <h2>📘 Instructions</h2>
+            <ul>
+                <li><strong>Valid URL Format:</strong> https://www.instagram.com/username</li>
+                <li><strong>Privacy:</strong> Only public Instagram profiles will display images</li>
+                <li><strong>Refresh:</strong> Images are cached for 1 hour. Use the refresh button on the main page to update</li>
+                <li><strong>Testing:</strong> Click "Validate URL" to test the Instagram URL before saving</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        const AdminPanel = {
+            collaborators: [],
+            
+            /**
+             * Initialize admin panel
+             */
+            async init() {
+                await this.loadCollaborators();
+            },
+            
+            /**
+             * Load all collaborators
+             */
+            async loadCollaborators() {
+                try {
+                    const response = await fetch('/collaborators');
+                    if (!response.ok) {
+                        throw new Error('Failed to load collaborators');
+                    }
+                    
+                    this.collaborators = await response.json();
+                    this.renderCollaborators();
+                } catch (error) {
+                    console.error('Error loading collaborators:', error);
+                    document.getElementById('collaborators-list').innerHTML = `
+                        <div class="message error">
+                            <strong>Error:</strong> ${error.message}
+                        </div>
+                    `;
+                }
+            },
+            
+            /**
+             * Render collaborators list
+             */
+            renderCollaborators() {
+                const container = document.getElementById('collaborators-list');
+                
+                if (this.collaborators.length === 0) {
+                    container.innerHTML = `
+                        <div class="message info">
+                            No collaborators found. Add collaborators using the API.
+                        </div>
+                    `;
+                    return;
+                }
+                
+                let html = '';
+                this.collaborators.forEach(collab => {
+                    html += `
+                        <div class="collaborator-card">
+                            <h3>${this.escapeHtml(collab.name)}</h3>
+                            <p><strong>Email:</strong> ${this.escapeHtml(collab.email)}</p>
+                            
+                            <div class="form-group">
+                                <label>Current Instagram URL:</label>
+                                <div class="current-url">
+                                    ${collab.instagramUrl || 'Not set'}
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="instagram-url-${collab.id}">New Instagram URL:</label>
+                                <input type="text" 
+                                       id="instagram-url-${collab.id}" 
+                                       placeholder="https://www.instagram.com/username"
+                                       value="${collab.instagramUrl || ''}">
+                            </div>
+                            
+                            <div id="validation-${collab.id}"></div>
+                            
+                            <button class="btn" onclick="AdminPanel.updateInstagramUrl(${collab.id})">
+                                Update Instagram URL
+                            </button>
+                            <button class="btn btn-secondary" onclick="AdminPanel.validateUrl(${collab.id})">
+                                Validate URL
+                            </button>
+                        </div>
+                    `;
+                });
+                
+                container.innerHTML = html;
+            },
+            
+            /**
+             * Validate Instagram URL
+             */
+            async validateUrl(collaboratorId) {
+                const input = document.getElementById(`instagram-url-${collaboratorId}`);
+                const validationDiv = document.getElementById(`validation-${collaboratorId}`);
+                const url = input.value.trim();
+                
+                if (!url) {
+                    validationDiv.innerHTML = `
+                        <div class="validation-result invalid">
+                            Please enter a URL
+                        </div>
+                    `;
+                    return;
+                }
+                
+                try {
+                    const response = await fetch('/api/validate-instagram', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ url })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.valid) {
+                        validationDiv.innerHTML = `
+                            <div class="validation-result valid">
+                                ✓ Valid Instagram URL<br>
+                                Username: <strong>${result.username}</strong><br>
+                                Normalized: ${result.normalizedUrl}
+                            </div>
+                        `;
+                    } else {
+                        validationDiv.innerHTML = `
+                            <div class="validation-result invalid">
+                                ✗ Invalid Instagram URL format<br>
+                                Expected format: https://www.instagram.com/username
+                            </div>
+                        `;
+                    }
+                } catch (error) {
+                    validationDiv.innerHTML = `
+                        <div class="validation-result invalid">
+                            Error validating URL: ${error.message}
+                        </div>
+                    `;
+                }
+            },
+            
+            /**
+             * Update Instagram URL for collaborator
+             */
+            async updateInstagramUrl(collaboratorId) {
+                const input = document.getElementById(`instagram-url-${collaboratorId}`);
+                const validationDiv = document.getElementById(`validation-${collaboratorId}`);
+                const url = input.value.trim();
+                
+                if (!url) {
+                    validationDiv.innerHTML = `
+                        <div class="validation-result invalid">
+                            Please enter a URL
+                        </div>
+                    `;
+                    return;
+                }
+                
+                try {
+                    const response = await fetch(`/admin/collaborator/${collaboratorId}/instagram`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ instagramUrl: url })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (response.ok) {
+                        validationDiv.innerHTML = `
+                            <div class="validation-result valid">
+                                ✓ Instagram URL updated successfully!
+                            </div>
+                        `;
+                        
+                        // Reload collaborators after a short delay
+                        setTimeout(() => {
+                            this.loadCollaborators();
+                        }, 2000);
+                    } else {
+                        validationDiv.innerHTML = `
+                            <div class="validation-result invalid">
+                                ✗ ${result.error}
+                            </div>
+                        `;
+                    }
+                } catch (error) {
+                    validationDiv.innerHTML = `
+                        <div class="validation-result invalid">
+                            Error updating URL: ${error.message}
+                        </div>
+                    `;
+                }
+            },
+            
+            /**
+             * Escape HTML to prevent XSS
+             */
+            escapeHtml(text) {
+                if (!text) return '';
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+        };
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            AdminPanel.init();
+        });
+    </script>
+</body>
+</html>

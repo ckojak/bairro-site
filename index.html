@@ -354,14 +354,14 @@
                 </div>
                 <div id="login" class="login-card">
                     <h3>Login Colaborador</h3>
-                    <form>
+                    <form action="/admin/login" method="POST" aria-label="Formulário de login do colaborador">
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                            <input type="email" id="email" name="email" placeholder="seu@email.com" autocomplete="email" required>
                         </div>
                         <div class="form-group">
                             <label for="password">Senha</label>
-                            <input type="password" id="password" name="password" placeholder="••••••••" required>
+                            <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" required>
                         </div>
                         <button type="submit" class="btn-login">Entrar</button>
                     </form>

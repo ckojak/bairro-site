@@ -8,16 +8,31 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const DATA_FILE = path.join(__dirname, 'data.json');
 const SESSION_SECRET = process.env.SESSION_SECRET || 'bairro-secret-key-2024-change-in-production';
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname));
+app.use(express.static(__dirname, {
+  dotfiles: 'deny',
+  index: false,
+  setHeaders: (res, path) => {
+    // Prevent serving sensitive files
+    if (path.endsWith('.json') || path.endsWith('.env') || path.includes('node_modules')) {
+      res.status(403).end();
+    }
+  }
+}));
 app.use(session({
   secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 24 * 60 * 60 * 1000 } // 24 hours
+  cookie: { 
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    httpOnly: true,
+    secure: IS_PRODUCTION, // Only send cookie over HTTPS in production
+    sameSite: 'strict' // CSRF protection
+  }
 }));
 
 // Helper function to get next ID
@@ -61,6 +76,27 @@ function isAdmin(req, res, next) {
 }
 
 // Routes
+
+// Serve main pages explicitly
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.get('/public.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public.html'));
+});
+
+app.get('/login.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'login.html'));
+});
+
+app.get('/dashboard.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dashboard.html'));
+});
+
+app.get('/admin.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'admin.html'));
+});
 
 // Login endpoint
 app.post('/api/login', async (req, res) => {

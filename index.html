@@ -1,80 +1,473 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Bairro</title>
+    <title>Bairro - Sua Porta de Entrada para Experiências Locais Vibrantes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
+            box-sizing: border-box;
         }
-        header {
-            background: #333;
-            color: #fff;
+
+        :root {
+            --primary-color: #1a1a2e;
+            --secondary-color: #16213e;
+            --accent-color: #e94560;
+            --gold-accent: #d4af37;
+            --light-bg: #f8f9fa;
+            --white: #ffffff;
+            --text-light: #6c757d;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.8;
+            color: var(--primary-color);
+            background: var(--light-bg);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 46, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
             padding: 1rem 0;
-            text-align: center;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
         }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-            padding: 1rem 0;
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .section {
-            background: #fff;
-            margin: 1rem 0;
-            padding: 1rem;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--gold-accent);
+            font-weight: 700;
+            letter-spacing: 2px;
         }
-        .section h2 {
-            margin-top: 0;
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
         }
-        .social-links a {
-            color: #1da1f2;
+
+        .nav-links a {
+            color: var(--white);
             text-decoration: none;
-            margin-right: 10px;
+            font-weight: 400;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold-accent);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold-accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 70px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            padding: 8rem 2rem 6rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(212,175,55,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: var(--white);
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--gold-accent);
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition);
+            animation: fadeInUp 1s ease-out 0.4s both;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--gold-accent);
+        }
+
+        /* Business Cards Grid */
+        .businesses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .business-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .business-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent-color), var(--gold-accent));
+        }
+
+        .business-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-content {
+            padding: 2.5rem;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent-color), var(--gold-accent));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .business-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .business-card p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: var(--light-bg);
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--accent-color);
+            color: var(--white);
+            transform: scale(1.05);
+        }
+
+        .social-link.whatsapp:hover {
+            background: #25D366;
+            color: var(--white);
+        }
+
+        .social-link.instagram:hover {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-color);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .businesses-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 6rem 1rem 4rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 2rem 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to Bairro</h1>
-        <p>Your gateway to vibrant local experiences</p>
-    </header>
-    <div class="container">
-        <div class="section">
-            <h2>Cassio Eletro Show</h2>
-            <p>Experience electrifying performances and captivating energy with Cassio Eletro Show!</p>
-            <div class="social-links">
-                <strong>Follow us:</strong>
-                <a href="https://www.facebook.com/cassioeletroshow" target="_blank">Facebook</a>
-                <a href="https://www.instagram.com/cassioeletroshow" target="_blank">Instagram</a>
-            </div>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">BAIRRO</div>
+            <ul class="nav-links">
+                <li><a href="#home">Início</a></li>
+                <li><a href="#businesses">Negócios</a></li>
+            </ul>
         </div>
-        <div class="section">
-            <h2>Kasinha Publounge</h2>
-            <p>Join us at Kasinha Publounge for a cozy ambiance, great drinks, and unforgettable moments.</p>
-            <div class="social-links">
-                <strong>Follow us:</strong>
-                <a href="https://www.facebook.com/kasinhapublounge" target="_blank">Facebook</a>
-                <a href="https://www.instagram.com/kasinhapublounge" target="_blank">Instagram</a>
-            </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Bem-vindo ao Bairro</h1>
+            <p>Sua porta de entrada para experiências locais vibrantes e serviços excepcionais</p>
+            <a href="#businesses" class="cta-button">Explore Nossos Parceiros</a>
         </div>
-        <div class="section">
-            <h2>Dalhe Brasa</h2>
-            <p>Savor the flavor of expertly grilled delights only at Dalhe Brasa.</p>
-            <div class="social-links">
-                <strong>Follow us:</strong>
-                <a href="https://www.facebook.com/dalhebrasa" target="_blank">Facebook</a>
-                <a href="https://www.instagram.com/dalhebrasa" target="_blank">Instagram</a>
+    </section>
+
+    <!-- Main Container -->
+    <div class="container" id="businesses">
+        <h2 class="section-title">Negócios em Destaque</h2>
+        
+        <div class="businesses-grid">
+            <!-- Cassio Eletro Show -->
+            <div class="business-card">
+                <div class="card-content">
+                    <div class="card-icon" role="img" aria-label="Ícone de raio">⚡</div>
+                    <h3>Cassio Eletro Show</h3>
+                    <p>Experimente performances eletrizantes e energia cativante com o Cassio Eletro Show!</p>
+                    <div class="social-links">
+                        <a href="https://wa.me/5511999999999" target="_blank" class="social-link whatsapp" aria-label="Fale com Cassio Eletro Show no WhatsApp">
+                            <span role="img" aria-label="Ícone do WhatsApp">💬</span> WhatsApp
+                        </a>
+                        <a href="https://www.instagram.com/cassioeletroshow" target="_blank" class="social-link instagram" aria-label="Siga Cassio Eletro Show no Instagram">
+                            <span role="img" aria-label="Ícone do Instagram">📷</span> Instagram
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kasinha Publounge -->
+            <div class="business-card">
+                <div class="card-content">
+                    <div class="card-icon" role="img" aria-label="Ícone de taça de coquetel">🍸</div>
+                    <h3>Kasinha Publounge</h3>
+                    <p>Junte-se a nós no Kasinha Publounge para um ambiente acolhedor, ótimos drinks e momentos inesquecíveis.</p>
+                    <div class="social-links">
+                        <a href="https://wa.me/5511999999999" target="_blank" class="social-link whatsapp" aria-label="Fale com Kasinha Publounge no WhatsApp">
+                            <span role="img" aria-label="Ícone do WhatsApp">💬</span> WhatsApp
+                        </a>
+                        <a href="https://www.instagram.com/kasinhapublounge" target="_blank" class="social-link instagram" aria-label="Siga Kasinha Publounge no Instagram">
+                            <span role="img" aria-label="Ícone do Instagram">📷</span> Instagram
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dalhe Brasa -->
+            <div class="business-card">
+                <div class="card-content">
+                    <div class="card-icon" role="img" aria-label="Ícone de fogo">🔥</div>
+                    <h3>Dalhe Brasa</h3>
+                    <p>Saboreie o sabor de delícias grelhadas com maestria somente no Dalhe Brasa.</p>
+                    <div class="social-links">
+                        <a href="https://wa.me/5511999999999" target="_blank" class="social-link whatsapp" aria-label="Fale com Dalhe Brasa no WhatsApp">
+                            <span role="img" aria-label="Ícone do WhatsApp">💬</span> WhatsApp
+                        </a>
+                        <a href="https://www.instagram.com/dalhebrasa" target="_blank" class="social-link instagram" aria-label="Siga Dalhe Brasa no Instagram">
+                            <span role="img" aria-label="Ícone do Instagram">📷</span> Instagram
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Bairro. Todos os direitos reservados. Feito com excelência.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.2)';
+            } else {
+                nav.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            }
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.business-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
 </body>
 </html>

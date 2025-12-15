@@ -909,9 +909,21 @@
             }
         }
 
+        // Load ads count on initial page load
+        async function loadAdsCount() {
+            try {
+                const response = await fetch('/api/admin/ads');
+                const ads = await response.json();
+                document.getElementById('total-ads').textContent = ads.length;
+            } catch (error) {
+                console.error('Error loading ads count:', error);
+            }
+        }
+
         // Initialize
         checkAuth();
         loadCollaborators();
+        loadAdsCount();
     </script>
 </body>
 </html>

@@ -7,6 +7,14 @@
       "role": "admin",
       "name": "Administrator",
       "collaboratorNumber": "ADMIN-001"
+    },
+    {
+      "id": 2,
+      "username": "joao",
+      "password": "$2a$10$wEyvBtWJu/zmLFb.M/xIKexR7FVWZZeFNY6Ht1Gh5MyIqSwr.5b7e",
+      "role": "collaborator",
+      "name": "João Silva",
+      "collaboratorNumber": "COLLAB-002"
     }
   ],
   "ads": [

@@ -160,11 +160,45 @@ bairro-site/
 ## Development Notes
 
 ### Instagram API Considerations
-Currently, the implementation uses publicly available Instagram data. For production use, consider:
-- Using Instagram's official Graph API for more reliable data
-- Implementing proper OAuth authentication
-- Handling API rate limits
-- Implementing webhook subscriptions for real-time updates
+
+⚠️ **Important Production Notice**
+
+The current implementation uses Instagram's public profile endpoints to fetch images. This approach has limitations:
+
+**Current Implementation:**
+- Uses publicly available data without API authentication
+- May be affected by Instagram's undocumented endpoint changes
+- Subject to rate limiting and potential IP blocking
+- Works for proof-of-concept and development
+
+**Recommended for Production:**
+For a robust production deployment, you should implement Instagram's official APIs:
+
+1. **Instagram Basic Display API** (for personal accounts)
+   - Requires app registration and user OAuth
+   - Official, stable, and documented
+   - Access to user's own media
+   - [Documentation](https://developers.facebook.com/docs/instagram-basic-display-api)
+
+2. **Instagram Graph API** (for business/creator accounts)
+   - More features and reliability
+   - Requires Facebook Business account
+   - Webhooks for real-time updates
+   - [Documentation](https://developers.facebook.com/docs/instagram-api)
+
+**Migration Steps:**
+1. Register your app at [Facebook for Developers](https://developers.facebook.com/)
+2. Set up Instagram Basic Display or Graph API
+3. Implement OAuth flow for user authorization
+4. Replace `instagramFetcher.js` with official API calls
+5. Store access tokens securely
+6. Handle token refresh and expiration
+
+**Terms of Service:**
+- Always comply with [Instagram's Platform Policy](https://www.instagram.com/about/legal/terms/api/)
+- Obtain user consent before accessing their data
+- Respect rate limits and caching guidelines
+- Don't scrape or use undocumented endpoints in production
 
 ### Future Enhancements
 - Add image lightbox/modal for better viewing experience

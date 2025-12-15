@@ -1,7 +1,30 @@
 /**
  * Instagram Public Profile Fetcher
- * Fetches public Instagram profile data without requiring API authentication
- * Note: This uses publicly available data only and respects privacy settings
+ * 
+ * ⚠️ IMPORTANT PRODUCTION NOTICE:
+ * This implementation uses Instagram's undocumented public endpoints for development/proof-of-concept.
+ * 
+ * LIMITATIONS:
+ * - May break if Instagram changes their HTML structure or endpoints
+ * - Subject to rate limiting and potential IP blocking
+ * - May violate Instagram's Terms of Service for production use
+ * - Not suitable for commercial applications
+ * 
+ * RECOMMENDED FOR PRODUCTION:
+ * Replace this with Instagram's official APIs:
+ * 1. Instagram Basic Display API - for personal accounts
+ *    https://developers.facebook.com/docs/instagram-basic-display-api
+ * 2. Instagram Graph API - for business/creator accounts
+ *    https://developers.facebook.com/docs/instagram-api
+ * 
+ * Official APIs provide:
+ * - Stable, documented endpoints
+ * - Proper authentication and authorization
+ * - Rate limiting transparency
+ * - Compliance with Instagram Platform Policy
+ * - Webhooks for real-time updates
+ * 
+ * See README.md for detailed migration instructions.
  */
 
 const axios = require('axios');

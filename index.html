@@ -369,11 +369,27 @@
                 container.querySelectorAll('.gallery-item').forEach(item => {
                     item.addEventListener('click', () => {
                         const imageUrl = item.getAttribute('data-image-url');
-                        if (imageUrl) {
-                            window.open(imageUrl, '_blank');
+                        // Validate URL before opening to prevent XSS
+                        if (imageUrl && InstagramGallery.isValidImageUrl(imageUrl)) {
+                            window.open(imageUrl, '_blank', 'noopener,noreferrer');
                         }
                     });
                 });
+            },
+            
+            /**
+             * Validates image URL to prevent XSS attacks
+             * @param {string} url - URL to validate
+             * @returns {boolean} True if URL is valid and safe
+             */
+            isValidImageUrl: function(url) {
+                try {
+                    const parsedUrl = new URL(url);
+                    // Only allow HTTP(S) protocols
+                    return parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:';
+                } catch (e) {
+                    return false;
+                }
             },
             
             /**
@@ -422,17 +438,25 @@
          * Initialize all galleries on page load
          */
         document.addEventListener('DOMContentLoaded', function() {
-            // Load galleries for all collaborators
-            [1, 2, 3].forEach(id => {
+            // Dynamically discover all gallery containers and load their galleries
+            const galleryContainers = document.querySelectorAll('[id^="instagram-gallery-"]');
+            const collaboratorIds = Array.from(galleryContainers).map(container => {
+                return parseInt(container.id.replace('instagram-gallery-', ''));
+            }).filter(id => !isNaN(id));
+            
+            // Load galleries for all discovered collaborators
+            collaboratorIds.forEach(id => {
                 InstagramGallery.loadGallery(id);
             });
             
-            // Set up periodic refresh (every 30 minutes)
-            setInterval(() => {
-                [1, 2, 3].forEach(id => {
-                    InstagramGallery.loadGallery(id);
-                });
-            }, 30 * 60 * 1000); // 30 minutes
+            // Set up periodic refresh (every 30 minutes) for all discovered collaborators
+            if (collaboratorIds.length > 0) {
+                setInterval(() => {
+                    collaboratorIds.forEach(id => {
+                        InstagramGallery.loadGallery(id);
+                    });
+                }, 30 * 60 * 1000); // 30 minutes
+            }
         });
     </script>
 </body>

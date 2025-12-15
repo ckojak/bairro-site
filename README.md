@@ -42,12 +42,18 @@ Sistema completo de anúncios classificados com gerenciamento de colaboradores e
 npm install
 ```
 
-3. Inicie o servidor:
+3. (Opcional) Configure variáveis de ambiente:
+```bash
+cp .env.example .env
+# Edit .env and set SESSION_SECRET to a strong random value
+```
+
+4. Inicie o servidor:
 ```bash
 npm start
 ```
 
-4. Acesse no navegador:
+5. Acesse no navegador:
 ```
 http://localhost:3000/public.html
 ```
@@ -114,6 +120,18 @@ O sistema utiliza um design moderno e luxuoso com:
 - Validação de entrada em todas as APIs
 - Controle de acesso baseado em roles (admin/collaborator)
 - Proteção contra acesso não autorizado
+
+### Considerações de Produção
+
+**IMPORTANTE:** Para uso em produção, implemente as seguintes melhorias de segurança:
+
+1. **Use HTTPS**: Configure SSL/TLS para criptografar toda a comunicação
+2. **Variáveis de Ambiente**: Configure `SESSION_SECRET` com valor forte e aleatório
+3. **Banco de Dados**: Substitua o armazenamento em arquivo JSON por um banco de dados apropriado (MongoDB, PostgreSQL, etc.)
+4. **Rate Limiting**: Implemente limitação de taxa para endpoints de autenticação
+5. **CORS**: Configure CORS adequadamente se o frontend for hospedado separadamente
+6. **Backup**: Implemente backups regulares dos dados
+7. **Logs**: Configure sistema de logs para auditoria e monitoramento
 
 ## Suporte
 

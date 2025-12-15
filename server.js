@@ -3,24 +3,28 @@ const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
 const path = require('path');
-const bodyParser = require('body-parser');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const DATA_FILE = path.join(__dirname, 'data.json');
+const SESSION_SECRET = process.env.SESSION_SECRET || 'bairro-secret-key-2024-change-in-production';
 
 // Middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 app.use(session({
-  secret: 'bairro-secret-key-2024',
+  secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 24 * 60 * 60 * 1000 } // 24 hours
 }));
 
-// Helper functions to read/write data
+// Helper function to get next ID
+function getNextId(items) {
+  if (items.length === 0) return 1;
+  return items.reduce((maxId, item) => Math.max(maxId, item.id), 0) + 1;
+}
 function readData() {
   try {
     const data = fs.readFileSync(DATA_FILE, 'utf8');
@@ -98,8 +102,13 @@ app.post('/api/login', async (req, res) => {
 
 // Logout endpoint
 app.post('/api/logout', (req, res) => {
-  req.session.destroy();
-  res.json({ success: true });
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Session destruction error:', err);
+      return res.status(500).json({ error: 'Failed to logout' });
+    }
+    res.json({ success: true });
+  });
 });
 
 // Get current user
@@ -150,7 +159,7 @@ app.post('/api/ads', isAuthenticated, (req, res) => {
 
   const data = readData();
   const newAd = {
-    id: data.ads.length > 0 ? Math.max(...data.ads.map(a => a.id)) + 1 : 1,
+    id: getNextId(data.ads),
     userId: req.session.userId,
     category,
     title,
@@ -253,7 +262,7 @@ app.post('/api/admin/collaborators', isAuthenticated, isAdmin, async (req, res) 
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const nextId = data.users.length > 0 ? Math.max(...data.users.map(u => u.id)) + 1 : 1;
+  const nextId = getNextId(data.users);
   const collaboratorNumber = `COLLAB-${String(nextId).padStart(3, '0')}`;
 
   const newUser = {

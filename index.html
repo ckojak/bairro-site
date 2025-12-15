@@ -354,7 +354,7 @@
                 </div>
                 <div id="login" class="login-card">
                     <h3>Login Colaborador</h3>
-                    <form action="/admin/login" method="POST" aria-label="Formulário de login do colaborador">
+                    <form id="login-form" aria-label="Formulário de login do colaborador">
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" id="email" name="email" placeholder="seu@email.com" autocomplete="email" required>
@@ -364,10 +364,94 @@
                             <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" required>
                         </div>
                         <button type="submit" class="btn-login">Entrar</button>
+                        <div id="login-error" style="color: #ff4444; margin-top: 1rem; display: none;"></div>
+                        <div id="login-success" style="color: var(--cyber-blue); margin-top: 1rem; display: none;"></div>
                     </form>
+                    <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                        <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; text-align: center;">
+                            <strong>Colaboradores de teste:</strong><br>
+                            colaborador1@bairro.com (Cassio Eletro Show)<br>
+                            colaborador2@bairro.com (Kasinha Publounge)<br>
+                            colaborador3@bairro.com (Dalhe Brasa)<br>
+                            <em>Senha para todos: senha123</em>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    
+    <script>
+        // Carregar anúncios dinamicamente
+        async function loadAnnouncements() {
+            try {
+                const response = await fetch('/api/announcements');
+                const announcements = await response.json();
+                
+                const container = document.getElementById('anuncios');
+                const announcementItems = announcements.map(a => `
+                    <div class="announcement-item">
+                        ${a.image ? `<img src="${a.image}" alt="${a.name}" style="width: 100%; border-radius: 8px; margin-bottom: 1rem;">` : ''}
+                        <h3>${a.name}</h3>
+                        <p>${a.description}</p>
+                        <div class="social-links">
+                            <strong>Siga-nos:</strong>
+                            ${a.facebook ? `<a href="${a.facebook}" target="_blank" rel="noopener noreferrer">Facebook</a>` : ''}
+                            ${a.instagram ? `<a href="${a.instagram}" target="_blank" rel="noopener noreferrer">Instagram</a>` : ''}
+                            ${a.whatsapp ? `<a href="https://wa.me/${a.whatsapp.replace(/\D/g, '')}" target="_blank" rel="noopener noreferrer">WhatsApp</a>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+                
+                container.innerHTML = `<h2>Anúncios</h2>${announcementItems}`;
+            } catch (error) {
+                console.error('Erro ao carregar anúncios:', error);
+            }
+        }
+        
+        // Login do colaborador
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('login-error');
+            const successDiv = document.getElementById('login-success');
+            
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+            
+            try {
+                const response = await fetch('/admin/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    localStorage.setItem('collaborator', JSON.stringify(result.collaborator));
+                    successDiv.textContent = 'Login realizado! Redirecionando...';
+                    successDiv.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        window.location.href = '/painel.html';
+                    }, 1500);
+                } else {
+                    errorDiv.textContent = result.error || 'Erro ao fazer login';
+                    errorDiv.style.display = 'block';
+                }
+            } catch (error) {
+                errorDiv.textContent = 'Erro de conexão. Verifique se o servidor está rodando.';
+                errorDiv.style.display = 'block';
+            }
+        });
+        
+        // Carregar anúncios ao iniciar
+        loadAnnouncements();
+    </script>
 </body>
 </html>

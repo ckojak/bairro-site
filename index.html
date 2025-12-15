@@ -221,7 +221,7 @@
             <div class="instagram-gallery">
                 <div class="instagram-header">
                     <h3>📸 Instagram Gallery</h3>
-                    <button class="refresh-btn" onclick="refreshGallery(1)">Refresh</button>
+                    <button class="refresh-btn" onclick="refreshGallery(1, event)">Refresh</button>
                 </div>
                 <div id="gallery-1" class="gallery-content">
                     <div class="loading">Loading Instagram images...</div>
@@ -240,7 +240,7 @@
             <div class="instagram-gallery">
                 <div class="instagram-header">
                     <h3>📸 Instagram Gallery</h3>
-                    <button class="refresh-btn" onclick="refreshGallery(2)">Refresh</button>
+                    <button class="refresh-btn" onclick="refreshGallery(2, event)">Refresh</button>
                 </div>
                 <div id="gallery-2" class="gallery-content">
                     <div class="loading">Loading Instagram images...</div>
@@ -259,7 +259,7 @@
             <div class="instagram-gallery">
                 <div class="instagram-header">
                     <h3>📸 Instagram Gallery</h3>
-                    <button class="refresh-btn" onclick="refreshGallery(3)">Refresh</button>
+                    <button class="refresh-btn" onclick="refreshGallery(3, event)">Refresh</button>
                 </div>
                 <div id="gallery-3" class="gallery-content">
                     <div class="loading">Loading Instagram images...</div>
@@ -348,8 +348,9 @@
                 
                 instagramData.images.forEach((image, index) => {
                     const caption = image.caption ? this.truncateText(image.caption, 50) : 'Instagram post';
+                    const imageId = `img-${instagramData.username}-${index}`;
                     html += `
-                        <div class="gallery-item" onclick="InstagramGallery.viewImage('${image.url}', '${this.escapeHtml(image.caption)}')">
+                        <div class="gallery-item" data-image-url="${this.escapeHtml(image.url)}" data-caption="${this.escapeHtml(image.caption)}" data-image-id="${imageId}">
                             <img src="${image.thumbnail || image.url}" 
                                  alt="${this.escapeHtml(caption)}" 
                                  loading="lazy"
@@ -363,10 +364,20 @@
                 
                 html += '</div>';
                 container.innerHTML = html;
+                
+                // Add event listeners to gallery items after rendering
+                container.querySelectorAll('.gallery-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const imageUrl = item.getAttribute('data-image-url');
+                        if (imageUrl) {
+                            window.open(imageUrl, '_blank');
+                        }
+                    });
+                });
             },
             
             /**
-             * Opens image in new tab
+             * Opens image in new tab (legacy method, kept for compatibility)
              */
             viewImage(url, caption) {
                 window.open(url, '_blank');
@@ -394,8 +405,8 @@
         /**
          * Refreshes gallery for a specific collaborator
          */
-        async function refreshGallery(collaboratorId) {
-            const button = event.target;
+        async function refreshGallery(collaboratorId, event) {
+            const button = event ? event.target : document.activeElement;
             button.disabled = true;
             button.textContent = 'Refreshing...';
             

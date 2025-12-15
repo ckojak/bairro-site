@@ -8,7 +8,7 @@ const axios = require('axios');
 
 // Cache for Instagram data to avoid excessive requests
 const instagramCache = new Map();
-const CACHE_DURATION = process.env.INSTAGRAM_CACHE_DURATION || 3600000; // 1 hour default
+const CACHE_DURATION = parseInt(process.env.INSTAGRAM_CACHE_DURATION, 10) || 3600000; // 1 hour default
 
 /**
  * Fetches public Instagram profile data
@@ -27,6 +27,8 @@ async function fetchInstagramProfile(username) {
   try {
     // Attempt to fetch public profile data
     // Note: Instagram's public endpoints can change, so this is a best-effort approach
+    // For production use, consider implementing Instagram's official Basic Display API or Graph API
+    // which provides more reliable and compliant data access
     const url = `https://www.instagram.com/${username}/?__a=1&__d=dis`;
     
     const response = await axios.get(url, {
